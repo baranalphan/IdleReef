@@ -72,9 +72,16 @@
         href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Young+Serif&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
       <style>
-        html {
-          scroll-snap-type: y mandatory;
-          scroll-padding-top: 0px;
+        @media (min-width: 1025px) {
+          html {
+            scroll-snap-type: none;
+          }
+        }
+        @media (max-width: 1024px) {
+          html {
+            scroll-snap-type: y mandatory;
+            scroll-padding-top: 0px;
+          }
         }
 
         html,
@@ -1068,6 +1075,122 @@ class Component extends DCLogic {
     }
   };
 
+  _isScrolling = false;
+  _currentSectionIndex = 0;
+  _sections = [];
+
+  _onWheel = (e) => {
+    if (this.state.loading) return;
+    const isDesktop = window.matchMedia('(min-width: 1025px)').matches;
+    if (!isDesktop) return;
+
+    e.preventDefault();
+    if (this._isScrolling) return;
+
+    this._sections = [...document.querySelectorAll('section')];
+    if (!this._sections.length) return;
+
+    if (e.deltaY > 0) {
+      if (this._currentSectionIndex < this._sections.length - 1) {
+        this._scrollToSection(this._currentSectionIndex + 1);
+      }
+    } else if (e.deltaY < 0) {
+      if (this._currentSectionIndex > 0) {
+        this._scrollToSection(this._currentSectionIndex - 1);
+      }
+    }
+  };
+
+  _onKeyDown = (e) => {
+    if (this.state.loading) return;
+    const isDesktop = window.matchMedia('(min-width: 1025px)').matches;
+    if (!isDesktop) return;
+
+    if (['ArrowDown', 'PageDown', ' '].includes(e.key) && !e.shiftKey) {
+      e.preventDefault();
+      if (this._isScrolling) return;
+      this._sections = [...document.querySelectorAll('section')];
+      if (this._currentSectionIndex < this._sections.length - 1) {
+        this._scrollToSection(this._currentSectionIndex + 1);
+      }
+    } else if (['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) {
+      e.preventDefault();
+      if (this._isScrolling) return;
+      this._sections = [...document.querySelectorAll('section')];
+      if (this._currentSectionIndex > 0) {
+        this._scrollToSection(this._currentSectionIndex - 1);
+      }
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      if (this._isScrolling) return;
+      this._scrollToSection(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      if (this._isScrolling) return;
+      this._sections = [...document.querySelectorAll('section')];
+      this._scrollToSection(this._sections.length - 1);
+    }
+  };
+
+  _onScroll = () => {
+    const isDesktop = window.matchMedia('(min-width: 1025px)').matches;
+    if (!isDesktop) return;
+    if (this._isScrolling) return;
+
+    this._sections = [...document.querySelectorAll('section')];
+    if (!this._sections.length) return;
+
+    let minDiff = Infinity;
+    let index = 0;
+    this._sections.forEach((sec, i) => {
+      const rect = sec.getBoundingClientRect();
+      const diff = Math.abs(rect.top);
+      if (diff < minDiff) {
+        minDiff = diff;
+        index = i;
+      }
+    });
+    this._currentSectionIndex = index;
+  };
+
+  _onClickAnchor = (e) => {
+    const isDesktop = window.matchMedia('(min-width: 1025px)').matches;
+    if (!isDesktop) return;
+
+    const a = e.target.closest('a');
+    if (a && a.getAttribute('href') && a.getAttribute('href').startsWith('#')) {
+      const id = a.getAttribute('href').substring(1);
+      const targetSec = document.getElementById(id);
+      if (targetSec) {
+        e.preventDefault();
+        this._sections = [...document.querySelectorAll('section')];
+        const idx = this._sections.indexOf(targetSec);
+        if (idx !== -1) {
+          this._scrollToSection(idx);
+        }
+      }
+    }
+  };
+
+  _scrollToSection = (index) => {
+    this._sections = [...document.querySelectorAll('section')];
+    if (index < 0 || index >= this._sections.length) return;
+
+    this._isScrolling = true;
+    this._currentSectionIndex = index;
+
+    const targetTop = this._sections[index].offsetTop;
+
+    window.scrollTo({
+      top: targetTop,
+      behavior: 'smooth'
+    });
+
+    setTimeout(() => {
+      this._isScrolling = false;
+    }, 850);
+  };
+
   componentDidMount() {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
@@ -1087,6 +1210,12 @@ class Component extends DCLogic {
     addEventListener('resize', this._onResize);
     this._sizeCanvases();
     this._raf = requestAnimationFrame(this._tick);
+
+    // Bind custom desktop scroll snapping listeners
+    window.addEventListener('wheel', this._onWheel, { passive: false });
+    window.addEventListener('keydown', this._onKeyDown, { passive: false });
+    window.addEventListener('scroll', this._onScroll);
+    document.addEventListener('click', this._onClickAnchor);
   }
 
   componentWillUnmount() {
@@ -1096,7 +1225,14 @@ class Component extends DCLogic {
     if (this._mo) this._mo.disconnect();
     if (this._ac) this._ac.close();
     document.body.style.overflow = '';
+
+    // Unbind custom desktop scroll snapping listeners
+    window.removeEventListener('wheel', this._onWheel);
+    window.removeEventListener('keydown', this._onKeyDown);
+    window.removeEventListener('scroll', this._onScroll);
+    document.removeEventListener('click', this._onClickAnchor);
   }
+
 
   /* ---------- yükleme / dalış ---------- */
   dive = () => {
