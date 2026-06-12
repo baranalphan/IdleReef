@@ -110,7 +110,7 @@
         /* Section Snapping and Divider Lines */
         section {
           scroll-snap-align: start;
-          scroll-snap-stop: always;
+          scroll-snap-stop: normal;
           min-height: 100vh !important;
           border-bottom: 1px solid rgba(127, 230, 240, 0.08);
           display: flex;
@@ -118,7 +118,7 @@
           justify-content: center;
           align-items: center;
           position: relative;
-          padding: clamp(60px, 8vh, 120px) 24px !important;
+          padding: clamp(45px, 6vh, 85px) 24px !important;
         }
 
         #final {
@@ -417,7 +417,7 @@
 
         <!-- HERO (Centered Responsive Layout) -->
         <section id="hero" data-screen-label="Hero" data-fish-x="0.78" data-fish-y="0.38"
-          style="position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 24px 90px !important;">
+          style="position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: clamp(60px, 6vh, 90px) 24px clamp(40px, 4vh, 60px) !important;">
 
           <div data-reveal="100"
             style="display: flex; flex-direction: column; align-items: center; gap: 24px; max-width: 800px; z-index: 5;">
@@ -460,7 +460,7 @@
 
         <!-- NEDİR -->
         <section id="nedir" data-screen-label="IdleReef Nedir" data-fish-x="0.17" data-fish-y="0.52"
-          style="min-height: 92vh; display: grid; place-items: center; padding: 120px 24px;">
+          style="min-height: 100vh; display: grid; place-items: center; padding: clamp(45px, 6vh, 85px) 24px;">
           <div
             style="max-width: 860px; display: grid; gap: 24px; justify-items: start; margin-left: auto; margin-right: 6vw; text-align: left;">
             <div data-reveal="0"
@@ -478,7 +478,7 @@
 
         <!-- IDLE / NASIL ÇALIŞIR -->
         <section id="idle" data-screen-label="Nasil Calisir" data-fish-x="0.82" data-fish-y="0.46"
-          style="min-height: 92vh; display: grid; place-items: center; padding: 120px 24px;">
+          style="min-height: 100vh; display: grid; place-items: center; padding: clamp(45px, 6vh, 85px) 24px;">
           <div style="max-width: 1060px; width: 100%; display: grid; gap: 48px;">
             <div style="display: grid; gap: 20px; max-width: 760px;">
               <div data-reveal="0"
@@ -535,7 +535,7 @@
 
         <!-- ÖZELLİKLER -->
         <section id="ozellikler" data-screen-label="Ozellikler" data-fish-x="0.14" data-fish-y="0.44"
-          style="min-height: 96vh; display: grid; place-items: center; padding: 120px 24px;">
+          style="min-height: 100vh; display: grid; place-items: center; padding: clamp(45px, 6vh, 85px) 24px;">
           <div style="max-width: 1060px; width: 100%; display: grid; gap: 48px;">
             <div
               style="display: grid; gap: 20px; justify-items: end; text-align: right; margin-left: auto; max-width: 720px;">
@@ -616,7 +616,7 @@
 
         <!-- AKVARYUM GELİŞTİRME -->
         <section id="gelistir" data-screen-label="Akvaryum Gelistirme" data-fish-x="0.84" data-fish-y="0.5"
-          style="min-height: 100vh; display: grid; place-items: center; padding: clamp(40px, 6vh, 90px) 24px !important;">
+          style="min-height: 100vh; display: grid; place-items: center; padding: clamp(30px, 4vh, 60px) 24px !important;">
           <div
             style="max-width: 1020px; width: 100%; display: grid; gap: clamp(18px, 3vh, 32px); justify-items: center; text-align: center;">
             <div style="display: grid; gap: clamp(8px, 1.5vh, 16px); justify-items: center;">
@@ -669,7 +669,7 @@
 
         <!-- YUMURTA AÇMA -->
         <section id="yumurta" data-screen-label="Yumurta Acma" data-fish-x="0.15" data-fish-y="0.5"
-          style="min-height: 100vh; display: grid; place-items: center; padding: 120px 24px;">
+          style="min-height: 100vh; display: grid; place-items: center; padding: clamp(45px, 6vh, 85px) 24px;">
           <div
             style="max-width: 1060px; width: 100%; display: grid; gap: 48px; justify-items: center; text-align: center;">
             <div style="display: grid; gap: 20px; justify-items: center;">
@@ -699,7 +699,7 @@
 
         <!-- FİNAL: AKVARYUM -->
         <section id="final" data-screen-label="Final Akvaryum"
-          style="min-height: 100vh; display: grid; place-items: center; padding: clamp(40px, 6vh, 80px) 24px 30px !important;">
+          style="min-height: 100vh; display: grid; place-items: center; padding: clamp(30px, 4vh, 60px) 24px 30px !important;">
           <div
             style="max-width: 1600px; width: 100%; display: grid; gap: clamp(16px, 2.5vh, 28px); justify-items: center; text-align: center;">
             <div style="display: grid; gap: clamp(6px, 1.2vh, 12px); justify-items: center; max-width: 760px;">
