@@ -110,7 +110,7 @@
         /* Section Snapping and Divider Lines */
         section {
           scroll-snap-align: start;
-          scroll-snap-stop: normal;
+          scroll-snap-stop: always;
           min-height: 100vh !important;
           border-bottom: 1px solid rgba(127, 230, 240, 0.08);
           display: flex;
@@ -732,7 +732,7 @@
             </div>
 
             <footer
-              style="width: 100%; margin-top: clamp(24px, 4vh, 48px); padding: 20px 0 10px; border-top: none; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; text-align: left; background: none; scroll-snap-align: end;">
+              style="width: 100%; margin-top: clamp(24px, 4vh, 48px); padding: 20px 0 10px; border-top: 1px solid rgba(127,230,240,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; text-align: left; background: none; scroll-snap-align: end;">
               <div style="display: grid; gap: 4px;">
                 <div
                   style="font-size: 24px; color: #eaf7fb; font-family: 'Caprasimo', serif; text-shadow: 0 0 16px rgba(31,182,201,.3);">
