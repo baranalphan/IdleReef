@@ -371,12 +371,12 @@
       <div
         style="position: fixed; top: 22px; right: 22px; z-index: 110; display: flex; background: rgba(10, 36, 56, 0.6); border: 1px solid rgba(127, 230, 240, 0.25); border-radius: 999px; padding: 4px; backdrop-filter: blur(8px); box-shadow: 0 8px 32px rgba(2, 9, 15, 0.4);">
         <button onClick="{{ setLangTR }}"
-          style="border: none; outline: none; padding: 6px 14px; border-radius: 999px; font-size: 13px; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.05em; font-weight: {{ langTRWeight }}; background: {{ langTRBg }}; color: {{ langTRCol }}; box-shadow: {{ langTRShadow }};"
+          sc-camel-style="border: none; outline: none; padding: 6px 14px; border-radius: 999px; font-size: 13px; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.05em; font-weight: {{ langTRWeight }}; background: {{ langTRBg }}; color: {{ langTRCol }}; box-shadow: {{ langTRShadow }};"
           style-hover="color: #7fe6f0;">
           TR
         </button>
         <button onClick="{{ setLangEN }}"
-          style="border: none; outline: none; padding: 6px 14px; border-radius: 999px; font-size: 13px; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.05em; font-weight: {{ langENWeight }}; background: {{ langENBg }}; color: {{ langENCol }}; box-shadow: {{ langENShadow }};"
+          sc-camel-style="border: none; outline: none; padding: 6px 14px; border-radius: 999px; font-size: 13px; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.05em; font-weight: {{ langENWeight }}; background: {{ langENBg }}; color: {{ langENCol }}; box-shadow: {{ langENShadow }};"
           style-hover="color: #7fe6f0;">
           EN
         </button>
@@ -413,7 +413,7 @@
 
       <!-- ============ İÇERİK ============ -->
       <main ref="{{ contentRef }}"
-        style="position: relative; z-index: 10; transition: {{ contentTransition }}; filter: {{ contentFilter }}; transform: {{ contentTransform }};">
+        sc-camel-style="position: relative; z-index: 10; transition: {{ contentTransition }}; filter: {{ contentFilter }}; transform: {{ contentTransform }};">
 
         <!-- HERO (Centered Responsive Layout) -->
         <section id="hero" data-screen-label="Hero" data-fish-x="0.78" data-fish-y="0.38"
@@ -631,7 +631,7 @@
             <div data-reveal="180" style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
               <sc-for list="{{ levelTabs }}" as="tab" hint-placeholder-count="3">
                 <button onClick="{{ tab.onClick }}"
-                  style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 19px; font-weight: 600; letter-spacing: .02em; padding: 12px 32px; border-radius: 999px; cursor: pointer; background: {{ tab.bg }}; border: 1px solid {{ tab.bd }}; color: {{ tab.col }}; transition: all .4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(6px);"
+                  sc-camel-style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 19px; font-weight: 600; letter-spacing: .02em; padding: 12px 32px; border-radius: 999px; cursor: pointer; background: {{ tab.bg }}; border: 1px solid {{ tab.bd }}; color: {{ tab.col }}; transition: all .4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(6px);"
                   style-hover="transform: translateY(-2px); box-shadow: 0 8px 20px rgba(2,9,15,.3);">{{
                   tab.label }}</button>
               </sc-for>
@@ -641,7 +641,7 @@
               <div
                 style="position: relative; width: min(68vh, 90vw, 760px); aspect-ratio: 16 / 9; border-radius: 28px; overflow: hidden; border: 1px solid rgba(127,230,240,.24); background: linear-gradient(180deg, rgba(17,112,122,.2), rgba(4,18,31,.7)); box-shadow: 0 30px 80px rgba(2,9,15,.6), inset 0 0 60px rgba(31,182,201,.16);">
                 <img src="{{ levelImg }}" alt="Akvaryum gelişim aşaması" data-asset="ecosistem"
-                  style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: filter 1.1s ease, transform 1.1s ease; filter: {{ levelFilter }}; transform: scale({{ levelScale }});">
+                  sc-camel-style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: filter 1.1s ease, transform 1.1s ease; filter: {{ levelFilter }}; transform: scale({{ levelScale }});">
                 <div
                   style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(127,230,240,.08), rgba(2,9,15,0) 35%);">
                 </div>
@@ -732,7 +732,7 @@
             </div>
 
             <footer
-              style="width: 100%; margin-top: clamp(24px, 4vh, 48px); padding: 20px 0 10px; border-top: 1px solid rgba(127,230,240,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; text-align: left; background: none;">
+              style="width: 100%; margin-top: clamp(24px, 4vh, 48px); padding: 20px 0 10px; border-top: 1px solid rgba(127,230,240,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; text-align: left; background: none; scroll-snap-align: end;">
               <div style="display: grid; gap: 4px;">
                 <div
                   style="font-size: 24px; color: #eaf7fb; font-family: 'Caprasimo', serif; text-shadow: 0 0 16px rgba(31,182,201,.3);">
@@ -802,18 +802,18 @@
       <!-- ============ YÜKLEME EKRANI ============ -->
       <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
         <div ref="{{ loaderRef }}" onClick="{{ dive }}"
-          style="position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; overflow: hidden; cursor: pointer; background: radial-gradient(130% 100% at 50% 0%, #020914 0%, #05162e 52%, #0a0b1e 100%); transition: opacity 1.2s ease, filter 1.2s ease; opacity: {{ loaderOpacity }}; filter: {{ loaderFilter }}; pointer-events: {{ loaderPointerEvents }};">
+          sc-camel-style="position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; overflow: hidden; cursor: pointer; background: radial-gradient(130% 100% at 50% 0%, #020914 0%, #05162e 52%, #0a0b1e 100%); transition: opacity 1.2s ease, filter 1.2s ease; opacity: {{ loaderOpacity }}; filter: {{ loaderFilter }}; pointer-events: {{ loaderPointerEvents }};">
           <video ref="{{ bgVideoRef }}" src="./uploads/background.mp4" muted="{{ true }}" autoPlay="{{ true }}"
             loop="{{ true }}" playsInline="{{ true }}"
             style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: .75; pointer-events: none;"></video>
           <sc-if value="{{ diving }}" hint-placeholder-val="{{ false }}">
             <sc-for list="{{ bubbles }}" as="b" hint-placeholder-count="0">
               <span
-                style="position: absolute; left: {{ b.left }}%; bottom: -90px; width: {{ b.size }}px; height: {{ b.size }}px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, rgba(234,247,251,.95), rgba(127,230,240,.28) 55%, rgba(127,230,240,.04) 78%); border: 1px solid rgba(234,247,251,.35); animation: bubbleUp {{ b.dur }}s ease-in {{ b.delay }}s both; z-index: 5;"></span>
+                sc-camel-style="position: absolute; left: {{ b.left }}%; bottom: -90px; width: {{ b.size }}px; height: {{ b.size }}px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, rgba(234,247,251,.95), rgba(127,230,240,.28) 55%, rgba(127,230,240,.04) 78%); border: 1px solid rgba(234,247,251,.35); animation: bubbleUp {{ b.dur }}s ease-in {{ b.delay }}s both; z-index: 5;"></span>
             </sc-for>
           </sc-if>
           <div
-            style="display: grid; gap: 24px; justify-items: center; text-align: center; padding: 24px; z-index: 10; position: relative; transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease; opacity: {{ loaderTextOpacity }}; transform: {{ loaderTextTransform }}; filter: {{ loaderTextFilter }};">
+            sc-camel-style="display: grid; gap: 24px; justify-items: center; text-align: center; padding: 24px; z-index: 10; position: relative; transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease; opacity: {{ loaderTextOpacity }}; transform: {{ loaderTextTransform }}; filter: {{ loaderTextFilter }};">
             <h1
               style="margin: 0; font-weight: normal; font-size: clamp(70px, 13vw, 150px); line-height: .95; letter-spacing: -0.02em; color: #eaf7fb; text-shadow: 0 0 40px rgba(31,182,201,.55), 0 0 100px rgba(155,107,255,.3);">
               IdleReef</h1>
@@ -1394,10 +1394,12 @@ class Component extends DCLogic {
   };
 
   _startAmbient() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
     if (!this._ac) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return;
       this._ac = new AC();
+    }
+    if (!this._amb) {
       const len = this._ac.sampleRate * 4;
       const buf = this._ac.createBuffer(1, len, this._ac.sampleRate);
       const d = buf.getChannelData(0);
