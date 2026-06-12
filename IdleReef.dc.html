@@ -992,20 +992,52 @@ class Component extends DCLogic {
     this._bgv = el;
     if (el && !el._wired) {
       el._wired = true;
+      el.setAttribute('muted', '');
+      el.setAttribute('playsinline', '');
+      el.muted = true;
+      el.defaultMuted = true;
       el.addEventListener('error', () => { el.style.display = 'none'; }, true);
-      const p = el.play && el.play(); if (p && p.catch) p.catch(() => {});
+      const playVideo = () => {
+        const p = el.play && el.play();
+        if (p && p.catch) {
+          p.catch(() => {
+            const playOnTouch = () => {
+              el.play().catch(() => {});
+              document.removeEventListener('touchstart', playOnTouch);
+            };
+            document.addEventListener('touchstart', playOnTouch);
+          });
+        }
+      };
+      playVideo();
     }
   };
   eggVideoRef = (el) => {
     this._eggv = el;
     if (el && !el._wired) {
       el._wired = true;
+      el.setAttribute('muted', '');
+      el.setAttribute('playsinline', '');
+      el.muted = true;
+      el.defaultMuted = true;
       el.addEventListener('error', () => {
         el.style.display = 'none';
         const note = el.parentElement && el.parentElement.querySelector('[data-egg-note]');
         if (note) note.style.display = 'grid';
       }, true);
-      const p = el.play && el.play(); if (p && p.catch) p.catch(() => {});
+      const playVideo = () => {
+        const p = el.play && el.play();
+        if (p && p.catch) {
+          p.catch(() => {
+            const playOnTouch = () => {
+              el.play().catch(() => {});
+              document.removeEventListener('touchstart', playOnTouch);
+            };
+            document.addEventListener('touchstart', playOnTouch);
+          });
+        }
+      };
+      playVideo();
     }
   };
 
