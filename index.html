@@ -1069,6 +1069,10 @@ class Component extends DCLogic {
   };
 
   componentDidMount() {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
     this._lastSection = null;
     this._rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this._mobile = window.matchMedia('(max-width: 760px)').matches;
@@ -1097,6 +1101,12 @@ class Component extends DCLogic {
   /* ---------- yükleme / dalış ---------- */
   dive = () => {
     if (this.state.diving) return;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (window.history.pushState) {
+      window.history.pushState("", document.title, window.location.pathname + window.location.search);
+    } else {
+      window.location.hash = "";
+    }
     const bubbles = Array.from({ length: 120 }, () => ({
       left: +(Math.random() * 100).toFixed(1),
       size: Math.round(8 + Math.random() * 46),
