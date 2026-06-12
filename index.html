@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./support.js"></script>
+</head>
+
+<body>
+  <x-dc>
+    <helmet>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+      <link
+        href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Young+Serif&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+      <style>
+        html {
+          scroll-behavior: smooth;
+          scroll-snap-type: y mandatory;
+          scroll-padding-top: 0px;
+        }
+
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+          background: #020914;
+        }
+
+        body {
+          overflow-x: hidden;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        ::selection {
+          background: #1fb6c9;
+          color: #ffffff;
+        }
+
+        h1,
+        h2,
+        h3,
+        .h-font {
+          font-family: 'Caprasimo', serif !important;
+          font-weight: normal !important;
+          letter-spacing: -0.02em;
+          margin: 0;
+        }
+
+        /* Section Snapping and Divider Lines */
+        section {
+          scroll-snap-align: start;
+          scroll-snap-stop: always;
+          min-height: 100vh !important;
+          border-bottom: 1px solid rgba(127, 230, 240, 0.08);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          padding: clamp(60px, 8vh, 120px) 24px !important;
+        }
+
+        #final {
+          border-bottom: none;
+        }
+
+        /* Responsive Text Clamps */
+        h1 {
+          font-size: clamp(40px, 8vw, 96px) !important;
+        }
+
+        h2 {
+          font-size: clamp(28px, 5vw, 56px) !important;
+        }
+
+        /* Responsive Center Alignments & Spacing for All Screens */
+        #hero,
+        #nedir,
+        #idle,
+        #ozellikler,
+        #gelistir,
+        #yumurta,
+        #final {
+          text-align: center !important;
+          justify-items: center !important;
+        }
+
+        #hero>div,
+        #nedir>div,
+        #idle>div,
+        #ozellikler>div,
+        #gelistir>div,
+        #yumurta>div,
+        #final>div {
+          margin: 0 auto !important;
+          text-align: center !important;
+          justify-items: center !important;
+        }
+
+        #idle>div>div:first-child,
+        #ozellikler>div>div:first-child {
+          margin: 0 auto !important;
+          text-align: center !important;
+          justify-items: center !important;
+        }
+
+        /* Grid Layout Systems */
+        .idle-grid {
+          display: grid;
+          width: 100%;
+          gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+          .idle-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (max-width: 767px) {
+          .idle-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .features-grid {
+          display: grid;
+          width: 100%;
+          gap: 16px;
+        }
+
+        @media (min-width: 992px) {
+          .features-grid {
+            grid-template-columns: repeat(4, 1fr);
+          }
+        }
+
+        @media (max-width: 991px) and (min-width: 600px) {
+          .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 599px) {
+          .features-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .tiers-grid {
+          display: grid;
+          width: 100%;
+        }
+
+        @media (min-width: 860px) {
+          .tiers-grid {
+            grid-template-columns: repeat(6, 1fr);
+            gap: clamp(8px, 1vw, 16px);
+          }
+        }
+
+        @media (max-width: 859px) and (min-width: 481px) {
+          .tiers-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .tiers-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+          }
+        }
+
+        p,
+        span,
+        div,
+        button,
+        a {
+          font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+        }
+
+        @keyframes finWave {
+
+          0%,
+          100% {
+            transform: rotate(-8deg);
+          }
+
+          50% {
+            transform: rotate(15deg);
+          }
+        }
+
+        @keyframes fishBob {
+
+          0%,
+          100% {
+            transform: translateY(-7px) rotate(-1.5deg);
+          }
+
+          50% {
+            transform: translateY(7px) rotate(1.5deg);
+          }
+        }
+
+        @keyframes bubbleUp {
+          0% {
+            transform: translateY(0) scale(.6);
+            opacity: 0;
+          }
+
+          8% {
+            opacity: .95;
+          }
+
+          100% {
+            transform: translateY(-115vh) scale(1.2);
+            opacity: 0;
+          }
+        }
+
+        @keyframes eggPulse {
+
+          0%,
+          100% {
+            box-shadow: 0 0 36px 8px rgba(155, 107, 255, .22), 0 0 90px 20px rgba(31, 182, 201, .10), inset 0 -18px 30px rgba(4, 18, 31, .45);
+            transform: scale(1);
+          }
+
+          50% {
+            box-shadow: 0 0 60px 16px rgba(31, 182, 201, .38), 0 0 130px 34px rgba(155, 107, 255, .16), inset 0 -18px 30px rgba(4, 18, 31, .45);
+            transform: scale(1.025);
+          }
+        }
+
+        @keyframes glowPulse {
+
+          0%,
+          100% {
+            opacity: .5;
+          }
+
+          50% {
+            opacity: 1;
+          }
+        }
+
+        @keyframes hintDip {
+
+          0%,
+          100% {
+            transform: translateY(0);
+            opacity: .85;
+          }
+
+          50% {
+            transform: translateY(12px);
+            opacity: .4;
+          }
+        }
+
+        @keyframes rayDrift {
+          0% {
+            transform: translateX(-4%) skewX(-14deg);
+            opacity: .4;
+          }
+
+          50% {
+            opacity: .8;
+          }
+
+          100% {
+            transform: translateX(4%) skewX(-14deg);
+            opacity: .4;
+          }
+        }
+
+        @keyframes floatSlow {
+
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+
+          50% {
+            transform: translateY(-14px);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          * {
+            animation-duration: .01s !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: .25s !important;
+          }
+
+          html {
+            scroll-behavior: auto;
+          }
+        }
+      </style>
+    </helmet>
+
+    <div ref="{{ rootRef }}"
+      style="font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; color: #eaf7fb; background: #020914;">
+
+      <!-- ============ DİL SEÇİCİ (TR / EN) ============ -->
+      <div style="position: fixed; top: 22px; right: 22px; z-index: 110; display: flex; background: rgba(10, 36, 56, 0.6); border: 1px solid rgba(127, 230, 240, 0.25); border-radius: 999px; padding: 4px; backdrop-filter: blur(8px); box-shadow: 0 8px 32px rgba(2, 9, 15, 0.4);">
+        <button onClick="{{ setLangTR }}"
+          style="border: none; outline: none; padding: 6px 14px; border-radius: 999px; font-size: 13px; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.05em; font-weight: {{ langTRWeight }}; background: {{ langTRBg }}; color: {{ langTRCol }}; box-shadow: {{ langTRShadow }};"
+          style-hover="color: #7fe6f0;">
+          TR
+        </button>
+        <button onClick="{{ setLangEN }}"
+          style="border: none; outline: none; padding: 6px 14px; border-radius: 999px; font-size: 13px; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.05em; font-weight: {{ langENWeight }}; background: {{ langENBg }}; color: {{ langENCol }}; box-shadow: {{ langENShadow }};"
+          style-hover="color: #7fe6f0;">
+          EN
+        </button>
+      </div>
+
+      <!-- ============ ARKA PLAN KATMANLARI ============ -->
+      <div
+        style="position: fixed; inset: 0; z-index: 0; background: linear-gradient(135deg, #020914 0%, #05162e 52%, #0a0b1e 100%);">
+      </div>
+      <img src="./uploads/arkaplan.png" alt=""
+        style="position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: .7; filter: contrast(1.05) brightness(0.85);">
+      <div
+        style="position: fixed; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(120% 90% at 50% 38%, rgba(2,9,20,0.15) 30%, rgba(2,9,20,0.8) 95%);">
+      </div>
+      <canvas ref="{{ glRef }}"
+        style="position: fixed; inset: 0; width: 100%; height: 100%; z-index: 3; mix-blend-mode: screen; opacity: .45; pointer-events: none;"></canvas>
+      <div
+        style="position: fixed; top: -10%; left: 12%; width: 16vw; height: 70vh; z-index: 4; pointer-events: none; background: linear-gradient(180deg, rgba(127,230,240,.12), rgba(127,230,240,0) 80%); filter: blur(18px); animation: rayDrift 11s ease-in-out infinite; transform-origin: top center;">
+      </div>
+      <div
+        style="position: fixed; top: -10%; left: 58%; width: 22vw; height: 85vh; z-index: 4; pointer-events: none; background: linear-gradient(180deg, rgba(155,107,255,.08), rgba(127,230,240,0) 75%); filter: blur(22px); animation: rayDrift 15s ease-in-out infinite reverse;">
+      </div>
+
+      <!-- ============ TAKİP EDEN BALIK (newo) ============ -->
+      <div ref="{{ fishRef }}" aria-hidden="true"
+        style="position: fixed; left: 0; top: 0; width: min(21vw, 240px); aspect-ratio: 1 / 1; z-index: 40; pointer-events: none; will-change: transform; opacity: 0; transition: opacity 1.4s ease;">
+        <div style="position: relative; width: 100%; height: 100%; animation: fishBob 5.5s ease-in-out infinite;">
+          <img src="./newo.png" alt="newo, palyaço balığı"
+            style="position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 14px 28px rgba(2,9,15,.5));">
+          <img src="./newo_yuzgec.png" alt=""
+            style="position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: 36% 54%; animation: finWave 1.4s ease-in-out infinite;">
+        </div>
+      </div>
+
+      <!-- ============ İÇERİK ============ -->
+      <main ref="{{ contentRef }}"
+        style="position: relative; z-index: 10; transition: {{ contentTransition }}; filter: {{ contentFilter }}; transform: {{ contentTransform }};">
+
+        <!-- HERO (Centered Responsive Layout) -->
+        <section id="hero" data-screen-label="Hero" data-fish-x="0.78" data-fish-y="0.38"
+          style="position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 24px 90px !important;">
+
+          <div data-reveal="100"
+            style="display: flex; flex-direction: column; align-items: center; gap: 24px; max-width: 800px; z-index: 5;">
+            <div
+              style="font-size: clamp(14px, 1.5vw, 16px); letter-spacing: .3em; text-transform: uppercase; color: #7fe6f0; font-weight: 700;">
+              {{ t.relaxingExperience }}
+            </div>
+            <h1
+              style="margin: 0; font-weight: 800; font-size: clamp(54px, 8vw, 96px); line-height: 0.95; letter-spacing: -0.02em; color: #eaf7fb; text-shadow: 0 0 45px rgba(31, 182, 201, 0.4), 0 0 100px rgba(155, 107, 255, 0.25);">
+              IdleReef
+            </h1>
+            <p
+              style="margin: 0; font-size: clamp(18px, 2.2vw, 24px); color: rgba(234, 247, 251, 0.85); line-height: 1.5; max-width: 620px; text-wrap: pretty;">
+              {{ t.heroDesc }}
+            </p>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 10px;">
+              <a href="#nedir"
+                style="display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; letter-spacing: 0.05em; color: #020914; text-decoration: none; padding: 16px 42px; border-radius: 999px; background: linear-gradient(135deg, #7fe6f0 0%, #1fb6c9 50%, #0284c7 100%); box-shadow: 0 0 30px rgba(31, 182, 201, 0.35), 0 10px 25px rgba(2, 9, 15, 0.5); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;"
+                style-hover="transform: translateY(-3px) scale(1.02); box-shadow: 0 0 50px rgba(31, 182, 201, 0.65), 0 15px 30px rgba(2, 9, 15, 0.6);">
+                {{ t.startDive }}
+              </a>
+              <a href="#final"
+                style="display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; letter-spacing: 0.03em; color: #eaf7fb; text-decoration: none; padding: 16px 36px; border-radius: 999px; background: rgba(10,36,56,0.4); border: 1px solid rgba(127,230,240,0.35); backdrop-filter: blur(8px); box-shadow: 0 10px 25px rgba(2, 9, 15, 0.4); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);"
+                style-hover="transform: translateY(-3px) scale(1.02); background: rgba(31,182,201,0.15); border-color: #7fe6f0; color: #ffffff; box-shadow: 0 0 35px rgba(31, 182, 201, 0.4), 0 15px 25px rgba(2, 9, 15, 0.5);">
+                {{ t.addToWishlist }}
+              </a>
+            </div>
+          </div>
+
+          <!-- Down Arrow -->
+          <a href="#nedir" aria-label="{{ t.scrollDown }}"
+            style="position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); display: grid; justify-items: center; gap: 6px; color: #7fe6f0; text-decoration: none; font-size: 16px; letter-spacing: .24em; text-transform: uppercase; z-index: 10;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+              style="animation: hintDip 2.4s ease-in-out infinite;">
+              <path d="M5 9l7 7 7-7" stroke="#7fe6f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              </path>
+            </svg>
+          </a>
+        </section>
+
+        <!-- NEDİR -->
+        <section id="nedir" data-screen-label="IdleReef Nedir" data-fish-x="0.17" data-fish-y="0.52"
+          style="min-height: 92vh; display: grid; place-items: center; padding: 120px 24px;">
+          <div
+            style="max-width: 860px; display: grid; gap: 24px; justify-items: start; margin-left: auto; margin-right: 6vw; text-align: left;">
+            <div data-reveal="0"
+              style="font-size: 16px; letter-spacing: .3em; text-transform: uppercase; color: #1fb6c9; font-weight: 600;">
+              {{ t.whatIsTitle }}
+            </div>
+            <h2 data-reveal="100"
+              style="margin: 0; font-weight: normal; font-size: clamp(38px, 5vw, 68px); line-height: 1.1; color: #eaf7fb; text-shadow: 0 0 40px rgba(31,182,201,.3); text-wrap: pretty;">
+              {{ t.whatIsHeading }}</h2>
+            <p data-reveal="200"
+              style="margin: 0; font-size: clamp(18px, 2vw, 24px); line-height: 1.6; color: rgba(234,247,251,.8); max-width: 720px; text-wrap: pretty; font-weight: 300;">
+              {{ t.whatIsDesc }}</p>
+          </div>
+        </section>
+
+        <!-- IDLE / NASIL ÇALIŞIR -->
+        <section id="idle" data-screen-label="Nasil Calisir" data-fish-x="0.82" data-fish-y="0.46"
+          style="min-height: 92vh; display: grid; place-items: center; padding: 120px 24px;">
+          <div style="max-width: 1060px; width: 100%; display: grid; gap: 48px;">
+            <div style="display: grid; gap: 20px; max-width: 760px;">
+              <div data-reveal="0"
+                style="font-size: 16px; letter-spacing: .3em; text-transform: uppercase; color: #1fb6c9; font-weight: 600;">
+                {{ t.howItWorksTitle }}
+              </div>
+              <h2 data-reveal="100"
+                style="margin: 0; font-weight: normal; font-size: clamp(38px, 5vw, 68px); line-height: 1.1; color: #eaf7fb; text-shadow: 0 0 40px rgba(31,182,201,.3); text-wrap: pretty;">
+                {{ t.howItWorksHeading }}</h2>
+              <p data-reveal="200"
+                style="margin: 0; font-size: clamp(18px, 2vw, 24px); line-height: 1.6; color: rgba(234,247,251,.8); text-wrap: pretty; font-weight: 300;">
+                {{ t.howItWorksDesc }}</p>
+            </div>
+            <div class="idle-grid">
+              <div data-reveal="0"
+                style="background: rgba(10,36,56,.35); border: 1px solid rgba(127,230,240,.1); border-radius: 24px; padding: clamp(18px, 2.2vw, 28px) clamp(14px, 1.8vw, 22px); backdrop-filter: blur(8px); display: grid; gap: 12px; transition: transform .4s ease, border-color .4s ease, box-shadow .4s ease;"
+                style-hover="transform: translateY(-6px); border-color: rgba(31,182,201,.4); box-shadow: 0 20px 40px rgba(2,9,15,.5);">
+                <div
+                  style="font-size: clamp(26px, 3.5vw, 36px); font-family: 'Caprasimo', serif; color: #1fb6c9; text-shadow: 0 0 18px rgba(31,182,201,.4);">
+                  01</div>
+                <div style="font-size: clamp(18px, 2vw, 22px); font-weight: 600; color: #eaf7fb;">{{ t.howItWorksCard1Title }}</div>
+                <p
+                  style="margin: 0; font-size: clamp(14px, 1.6vw, 16px); line-height: 1.6; color: rgba(234,247,251,.7); text-wrap: pretty; font-weight: 300;">
+                  {{ t.howItWorksCard1Desc }}</p>
+              </div>
+              <div data-reveal="140"
+                style="background: rgba(10,36,56,.35); border: 1px solid rgba(127,230,240,.1); border-radius: 24px; padding: clamp(18px, 2.2vw, 28px) clamp(14px, 1.8vw, 22px); backdrop-filter: blur(8px); display: grid; gap: 12px; transition: transform .4s ease, border-color .4s ease, box-shadow .4s ease;"
+                style-hover="transform: translateY(-6px); border-color: rgba(31,182,201,.4); box-shadow: 0 20px 40px rgba(2,9,15,.5);">
+                <div
+                  style="font-size: clamp(26px, 3.5vw, 36px); font-family: 'Caprasimo', serif; color: #1fb6c9; text-shadow: 0 0 18px rgba(31,182,201,.4);">
+                  02</div>
+                <div style="font-size: clamp(18px, 2vw, 22px); font-weight: 600; color: #eaf7fb;">{{ t.howItWorksCard2Title }}</div>
+                <p
+                  style="margin: 0; font-size: clamp(14px, 1.6vw, 16px); line-height: 1.6; color: rgba(234,247,251,.7); text-wrap: pretty; font-weight: 300;">
+                  {{ t.howItWorksCard2Desc }}</p>
+              </div>
+              <div data-reveal="280"
+                style="background: rgba(10,36,56,.35); border: 1px solid rgba(127,230,240,.1); border-radius: 24px; padding: clamp(18px, 2.2vw, 28px) clamp(14px, 1.8vw, 22px); backdrop-filter: blur(8px); display: grid; gap: 12px; transition: transform .4s ease, border-color .4s ease, box-shadow .4s ease;"
+                style-hover="transform: translateY(-6px); border-color: rgba(31,182,201,.4); box-shadow: 0 20px 40px rgba(2,9,15,.5);">
+                <div
+                  style="font-size: clamp(26px, 3.5vw, 36px); font-family: 'Caprasimo', serif; color: #1fb6c9; text-shadow: 0 0 18px rgba(31,182,201,.4);">
+                  03</div>
+                <div style="font-size: clamp(18px, 2vw, 22px); font-weight: 600; color: #eaf7fb;">{{ t.howItWorksCard3Title }}</div>
+                <p
+                  style="margin: 0; font-size: clamp(14px, 1.6vw, 16px); line-height: 1.6; color: rgba(234,247,251,.7); text-wrap: pretty; font-weight: 300;">
+                  {{ t.howItWorksCard3Desc }}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ÖZELLİKLER -->
+        <section id="ozellikler" data-screen-label="Ozellikler" data-fish-x="0.14" data-fish-y="0.44"
+          style="min-height: 96vh; display: grid; place-items: center; padding: 120px 24px;">
+          <div style="max-width: 1060px; width: 100%; display: grid; gap: 48px;">
+            <div
+              style="display: grid; gap: 20px; justify-items: end; text-align: right; margin-left: auto; max-width: 720px;">
+              <div data-reveal="0"
+                style="font-size: 16px; letter-spacing: .3em; text-transform: uppercase; color: #1fb6c9; font-weight: 600;">
+                {{ t.featuresTitle }}
+              </div>
+              <h2 data-reveal="100"
+                style="margin: 0; font-weight: normal; font-size: clamp(38px, 5vw, 68px); line-height: 1.1; color: #eaf7fb; text-shadow: 0 0 40px rgba(31,182,201,.3); text-wrap: pretty;">
+                {{ t.featuresHeading }}</h2>
+            </div>
+            <div class="features-grid">
+              <div data-reveal="0"
+                style="background: rgba(10,36,56,.35); border: 1px solid rgba(127,230,240,.1); border-radius: 24px; padding: clamp(16px, 2vw, 26px) clamp(12px, 1.5vw, 18px); backdrop-filter: blur(8px); display: grid; gap: 10px; align-content: start; transition: transform .4s ease, border-color .4s ease, box-shadow .4s ease;"
+                style-hover="transform: translateY(-8px); border-color: rgba(31,182,201,.55); box-shadow: 0 18px 50px rgba(2,9,15,.5), 0 0 30px rgba(31,182,201,.18);">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 8h16v9a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V8z" stroke="#7fe6f0" stroke-width="1.6"></path>
+                  <path d="M2 8h20M8 4l1.5 4M16 4l-1.5 4" stroke="#7fe6f0" stroke-width="1.6" stroke-linecap="round">
+                  </path>
+                  <path d="M8 14c1.2-1.4 2.8-1.4 4 0 1.2 1.4 2.8 1.4 4 0" stroke="#1fb6c9" stroke-width="1.6"
+                    stroke-linecap="round"></path>
+                </svg>
+                <div style="font-size: clamp(18px, 2vw, 22px); font-weight: 600; color: #eaf7fb;">{{ t.feature1Title }}
+                </div>
+                <p
+                  style="margin: 0; font-size: clamp(13px, 1.6vw, 15px); line-height: 1.6; color: rgba(234,247,251,.7); text-wrap: pretty; font-weight: 300;">
+                  {{ t.feature1Desc }}</p>
+              </div>
+              <div data-reveal="120"
+                style="background: rgba(10,36,56,.35); border: 1px solid rgba(127,230,240,.1); border-radius: 24px; padding: clamp(16px, 2vw, 26px) clamp(12px, 1.5vw, 18px); backdrop-filter: blur(8px); display: grid; gap: 10px; align-content: start; transition: transform .4s ease, border-color .4s ease, box-shadow .4s ease;"
+                style-hover="transform: translateY(-8px); border-color: rgba(155,107,255,.55); box-shadow: 0 18px 50px rgba(2,9,15,.5), 0 0 30px rgba(155,107,255,.2);">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3c3.5 3.4 5.5 6.8 5.5 10a5.5 5.5 0 1 1-11 0C6.5 9.8 8.5 6.4 12 3z" stroke="#9b6bff"
+                    stroke-width="1.6"></path>
+                  <path d="M9.5 13.5c0 1.6 1 2.8 2.5 3" stroke="#9b6bff" stroke-width="1.6" stroke-linecap="round">
+                  </path>
+                </svg>
+                <div style="font-size: clamp(18px, 2vw, 22px); font-weight: 600; color: #eaf7fb;">{{ t.feature2Title }}
+                </div>
+                <p
+                  style="margin: 0; font-size: clamp(13px, 1.6vw, 15px); line-height: 1.6; color: rgba(234,247,251,.7); text-wrap: pretty; font-weight: 300;">
+                  {{ t.feature2Desc }}</p>
+              </div>
+              <div data-reveal="240"
+                style="background: rgba(10,36,56,.35); border: 1px solid rgba(127,230,240,.1); border-radius: 24px; padding: clamp(16px, 2vw, 26px) clamp(12px, 1.5vw, 18px); backdrop-filter: blur(8px); display: grid; gap: 10px; align-content: start; transition: transform .4s ease, border-color .4s ease, box-shadow .4s ease;"
+                style-hover="transform: translateY(-8px); border-color: rgba(255,214,107,.55); box-shadow: 0 18px 50px rgba(2,9,15,.5), 0 0 30px rgba(255,214,107,.16);">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 7l9-4 9 4-9 4-9-4z" stroke="#ffd66b" stroke-width="1.6" stroke-linejoin="round"></path>
+                  <path d="M3 7v8l9 4 9-4V7" stroke="#ffd66b" stroke-width="1.6" stroke-linejoin="round"></path>
+                  <path d="M12 11v8" stroke="#ffd66b" stroke-width="1.6"></path>
+                </svg>
+                <div style="font-size: clamp(18px, 2vw, 22px); font-weight: 600; color: #eaf7fb;">{{ t.feature3Title }}
+                </div>
+                <p
+                  style="margin: 0; font-size: clamp(13px, 1.6vw, 15px); line-height: 1.6; color: rgba(234,247,251,.7); text-wrap: pretty; font-weight: 300;">
+                  {{ t.feature3Desc }}</p>
+              </div>
+              <div data-reveal="360"
+                style="background: rgba(10,36,56,.35); border: 1px solid rgba(127,230,240,.1); border-radius: 24px; padding: clamp(16px, 2vw, 26px) clamp(12px, 1.5vw, 18px); backdrop-filter: blur(8px); display: grid; gap: 10px; align-content: start; transition: transform .4s ease, border-color .4s ease, box-shadow .4s ease;"
+                style-hover="transform: translateY(-8px); border-color: rgba(31,182,201,.55); box-shadow: 0 18px 50px rgba(2,9,15,.5), 0 0 30px rgba(31,182,201,.18);">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 12c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0" stroke="#1fb6c9" stroke-width="1.6"
+                    stroke-linecap="round"></path>
+                  <path d="M3 17c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0" stroke="#7fe6f0" stroke-width="1.6"
+                    stroke-linecap="round" opacity=".7"></path>
+                  <circle cx="17" cy="6" r="1.2" fill="#9b6bff"></circle>
+                  <circle cx="7" cy="5" r=".9" fill="#7fe6f0"></circle>
+                </svg>
+                <div style="font-size: clamp(18px, 2vw, 22px); font-weight: 600; color: #eaf7fb;">{{ t.feature4Title }}</div>
+                <p
+                  style="margin: 0; font-size: clamp(13px, 1.6vw, 15px); line-height: 1.6; color: rgba(234,247,251,.7); text-wrap: pretty; font-weight: 300;">
+                  {{ t.feature4Desc }}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- AKVARYUM GELİŞTİRME -->
+        <section id="gelistir" data-screen-label="Akvaryum Gelistirme" data-fish-x="0.84" data-fish-y="0.5"
+          style="min-height: 100vh; display: grid; place-items: center; padding: clamp(40px, 6vh, 90px) 24px !important;">
+          <div
+            style="max-width: 1020px; width: 100%; display: grid; gap: clamp(18px, 3vh, 32px); justify-items: center; text-align: center;">
+            <div style="display: grid; gap: clamp(8px, 1.5vh, 16px); justify-items: center;">
+              <div data-reveal="0"
+                style="font-size: 16px; letter-spacing: .3em; text-transform: uppercase; color: #1fb6c9; font-weight: 600;">
+                {{ t.upgradesTitle }}
+              </div>
+              <h2 data-reveal="100"
+                style="margin: 0; font-weight: normal; font-size: clamp(38px, 5vw, 68px); line-height: 1.1; color: #eaf7fb; text-shadow: 0 0 40px rgba(31,182,201,.3); text-wrap: pretty;">
+                {{ t.upgradesHeading }}</h2>
+            </div>
+            <div data-reveal="180" style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+              <sc-for list="{{ levelTabs }}" as="tab" hint-placeholder-count="3">
+                <button onClick="{{ tab.onClick }}"
+                  style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 19px; font-weight: 600; letter-spacing: .02em; padding: 12px 32px; border-radius: 999px; cursor: pointer; background: {{ tab.bg }}; border: 1px solid {{ tab.bd }}; color: {{ tab.col }}; transition: all .4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(6px);"
+                  style-hover="transform: translateY(-2px); box-shadow: 0 8px 20px rgba(2,9,15,.3);">{{
+                  tab.label }}</button>
+              </sc-for>
+            </div>
+            <div data-reveal="260"
+              style="width: 100%; display: grid; gap: clamp(12px, 2vh, 18px); justify-items: center;">
+              <div
+                style="position: relative; width: min(68vh, 90vw, 760px); aspect-ratio: 16 / 9; border-radius: 28px; overflow: hidden; border: 1px solid rgba(127,230,240,.24); background: linear-gradient(180deg, rgba(17,112,122,.2), rgba(4,18,31,.7)); box-shadow: 0 30px 80px rgba(2,9,15,.6), inset 0 0 60px rgba(31,182,201,.16);">
+                <img src="{{ levelImg }}" alt="Akvaryum gelişim aşaması" data-asset="ecosistem"
+                  style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: filter 1.1s ease, transform 1.1s ease; filter: {{ levelFilter }}; transform: scale({{ levelScale }});">
+                <div
+                  style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(127,230,240,.08), rgba(2,9,15,0) 35%);">
+                </div>
+                <div
+                  style="position: absolute; left: 24px; bottom: 20px; padding: 10px 24px; border-radius: 999px; background: rgba(2,9,15,.65); border: 1px solid rgba(127,230,240,.25); font-size: 18px; font-weight: 600; color: #7fe6f0; backdrop-filter: blur(6px); letter-spacing: 0.05em;">
+                  {{ levelBadge }}</div>
+              </div>
+              <div style="display: grid; gap: clamp(6px, 1vh, 10px); justify-items: center; max-width: 680px;">
+                <div style="font-size: clamp(26px, 3vw, 34px); color: #7fe6f0; font-family: 'Caprasimo', serif;">{{
+                  levelTitle }}</div>
+                <p
+                  style="margin: 0; font-size: clamp(17px, 2vw, 21px); line-height: 1.6; color: rgba(234,247,251,.8); text-wrap: pretty; font-weight: 300;">
+                  {{ levelDesc }}</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 8px;">
+                  <sc-for list="{{ levelStats }}" as="s" hint-placeholder-count="3">
+                    <span
+                      style="font-size: 16px; font-weight: 500; padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(31,182,201,.3); color: rgba(234,247,251,.8); background: rgba(17,112,122,.15);">{{
+                      s }}</span>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- YUMURTA AÇMA -->
+        <section id="yumurta" data-screen-label="Yumurta Acma" data-fish-x="0.15" data-fish-y="0.5"
+          style="min-height: 100vh; display: grid; place-items: center; padding: 120px 24px;">
+          <div
+            style="max-width: 1060px; width: 100%; display: grid; gap: 48px; justify-items: center; text-align: center;">
+            <div style="display: grid; gap: 20px; justify-items: center;">
+              <div data-reveal="0"
+                style="font-size: 16px; letter-spacing: .3em; text-transform: uppercase; color: #9b6bff; font-weight: 600;">
+                {{ t.eggsTitle }}
+              </div>
+              <h2 data-reveal="100"
+                style="margin: 0; font-weight: normal; font-size: clamp(38px, 5vw, 68px); line-height: 1.1; color: #eaf7fb; text-shadow: 0 0 40px rgba(155,107,255,.35); text-wrap: pretty;">
+                {{ t.eggsHeading }}</h2>
+              <p data-reveal="200"
+                style="margin: 0; font-size: clamp(18px, 2vw, 24px); line-height: 1.6; color: rgba(234,247,251,.8); max-width: 660px; text-wrap: pretty; font-weight: 300;">
+                {{ t.eggsDesc }}</p>
+            </div>
+
+            <div data-reveal="280"
+              style="position: relative; width: min(640px, 100%); aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; border: 1px solid rgba(155,107,255,0.3); background: #04121f; box-shadow: 0 0 40px rgba(155,107,255,0.25), 0 20px 50px rgba(2,9,15,0.6); display: flex; align-items: center; justify-content: center;">
+              <video ref="{{ eggVideoRef }}" src="uploads/yumurta.mp4" controls="{{ true }}" playsInline="{{ true }}"
+                loop="{{ true }}" style="width: 100%; height: 100%; object-fit: cover;"></video>
+              <div data-egg-note
+                style="display: none; position: absolute; inset: 0; border-radius: 20px; border: 1px dashed rgba(155,107,255,.5); background: rgba(10,36,56,.6); place-items: center; text-align: center; padding: 30px; font-size: clamp(16px, 2vw, 20px); line-height: 1.5; color: #9b6bff;">
+                {{ t.eggVideoNote }}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FİNAL: AKVARYUM -->
+        <section id="final" data-screen-label="Final Akvaryum"
+          style="min-height: 100vh; display: grid; place-items: center; padding: clamp(40px, 6vh, 80px) 24px 30px !important;">
+          <div
+            style="max-width: 1600px; width: 100%; display: grid; gap: clamp(16px, 2.5vh, 28px); justify-items: center; text-align: center;">
+            <div style="display: grid; gap: clamp(6px, 1.2vh, 12px); justify-items: center; max-width: 760px;">
+              <div data-reveal="0"
+                style="font-size: 16px; letter-spacing: .3em; text-transform: uppercase; color: #ffd66b; font-weight: 600;">
+                {{ t.finalTitle }}
+              </div>
+              <h2 data-reveal="100"
+                style="margin: 0; font-weight: normal; font-size: clamp(38px, 5vw, 68px); line-height: 1.1; color: #eaf7fb; text-shadow: 0 0 40px rgba(255,214,107,.25); text-wrap: pretty;">
+                {{ t.finalHeading }}</h2>
+              <p data-reveal="200"
+                style="margin: 0; font-size: clamp(17px, 1.8vw, 21px); line-height: 1.6; color: rgba(234,247,251,.8); max-width: 640px; text-wrap: pretty; font-weight: 300;">
+                {{ t.finalDesc }}</p>
+            </div>
+            <div ref="{{ tankRef }}" data-reveal="260"
+              style="position: relative; width: min(96vh, 98vw, 1440px); aspect-ratio: 16 / 9; border-radius: 28px; overflow: hidden; border: none; background: none; box-shadow: none;">
+              <img src="uploads/akvaryum1.png" alt="IdleReef akvaryumu" data-asset="akvaryum"
+                style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <div style="display: grid; gap: clamp(6px, 1vh, 10px); justify-items: center;">
+              <a data-reveal="320" href="#"
+                style="display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: clamp(14px, 1.5vw, 17px); letter-spacing: .02em; color: #020914; text-decoration: none; padding: 10px 28px; border-radius: 999px; background: linear-gradient(135deg, #7fe6f0 0%, #1fb6c9 50%, #0284c7 100%); box-shadow: 0 0 30px rgba(31, 182, 201, 0.35), 0 14px 40px rgba(2,9,15,.5); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;"
+                style-hover="transform: translateY(-2px) scale(1.02); box-shadow: 0 0 45px rgba(31, 182, 201, 0.55), 0 15px 35px rgba(2, 9, 15, 0.45);">
+                {{ t.steamWishlist }}
+              </a>
+              <div data-reveal="380"
+                style="font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(234,247,251,.45);">
+                {{ t.comingSoon }}</div>
+            </div>
+
+            <footer
+              style="width: 100%; margin-top: clamp(24px, 4vh, 48px); padding: 20px 0 10px; border-top: 1px solid rgba(127,230,240,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; text-align: left; background: none;">
+              <div style="display: grid; gap: 4px;">
+                <div
+                  style="font-size: 24px; color: #eaf7fb; font-family: 'Caprasimo', serif; text-shadow: 0 0 16px rgba(31,182,201,.3);">
+                  IdleReef</div>
+                <div style="font-size: 13px; color: rgba(234,247,251,.35); font-weight: 300;">
+                  {{ t.footerCopyright }}
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <a href="#"
+                  style="font-size: 14px; font-weight: 500; color: rgba(127,230,240,.75); text-decoration: none; padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(127,230,240,.15); transition: all .4s ease;"
+                  style-hover="border-color: #7fe6f0; color: #7fe6f0; background: rgba(31,182,201,.12);">Discord</a>
+                <a href="#"
+                  style="font-size: 14px; font-weight: 500; color: rgba(127,230,240,.75); text-decoration: none; padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(127,230,240,.15); transition: all .4s ease;"
+                  style-hover="border-color: #7fe6f0; color: #7fe6f0; background: rgba(31,182,201,.12);">X / Twitter</a>
+                <a href="#"
+                  style="font-size: 14px; font-weight: 500; color: rgba(127,230,240,.75); text-decoration: none; padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(127,230,240,.15); transition: all .4s ease;"
+                  style-hover="border-color: #7fe6f0; color: #7fe6f0; background: rgba(31,182,201,.12);">Steam</a>
+                <a href="#"
+                  style="font-size: 14px; font-weight: 500; color: rgba(127,230,240,.75); text-decoration: none; padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(127,230,240,.15); transition: all .4s ease;"
+                  style-hover="border-color: #7fe6f0; color: #7fe6f0; background: rgba(31,182,201,.12);">YouTube</a>
+              </div>
+            </footer>
+          </div>
+        </section>
+      </main>
+
+      <!-- ============ YUMURTA VİDEO OVERLAY REMOVED ============ -->
+
+      <!-- ============ SES DÜĞMESİ ============ -->
+      <button onClick="{{ toggleSound }}" aria-label="{{ t.soundAriaLabel }}" title="{{ t.soundTitle }}"
+        style="position: fixed; right: 15px; bottom: 22px; z-index: 60; width: 54px; height: 54px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; background: rgba(10,36,56,.7); border: 1px solid rgba(127,230,240,.3); backdrop-filter: blur(8px); box-shadow: 0 10px 30px rgba(2,9,15,.5); transition: all .4s ease;"
+        style-hover="border-color: #7fe6f0; box-shadow: 0 0 26px rgba(31,182,201,.4);">
+        <sc-if value="{{ soundOn }}" hint-placeholder-val="{{ false }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M4 9v6h4l5 4V5L8 9H4z" fill="#7fe6f0"></path>
+            <path d="M16 9c1.4 1.6 1.4 4.4 0 6M18.5 6.5c2.6 3 2.6 8 0 11" stroke="#7fe6f0" stroke-width="1.6"
+              stroke-linecap="round"></path>
+          </svg>
+        </sc-if>
+        <sc-if value="{{ soundOff }}" hint-placeholder-val="{{ true }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M4 9v6h4l5 4V5L8 9H4z" fill="rgba(234,247,251,.5)"></path>
+            <path d="M16.5 9.5l5 5M21.5 9.5l-5 5" stroke="rgba(234,247,251,.6)" stroke-width="1.6"
+              stroke-linecap="round">
+            </path>
+          </svg>
+        </sc-if>
+      </button>
+
+      <!-- ============ DERİNLİK GÖSTERGESİ ============ -->
+      <div
+        style="position: fixed; left: 22px; bottom: 22px; z-index: 60; display: flex; align-items: center; gap: 10px; pointer-events: none; opacity: .75;">
+        <div
+          style="width: 2px; height: 44px; background: linear-gradient(180deg, rgba(127,230,240,.7), rgba(127,230,240,.08)); border-radius: 2px;">
+        </div>
+        <div style="display: grid; gap: 2px;">
+          <span ref="{{ depthRef }}"
+            style="font-size: 25px; color: #7fe6f0; text-shadow: 0 0 14px rgba(31,182,201,.5);">0
+            m</span>
+          <span
+            style="font-size: 15px; letter-spacing: .26em; text-transform: uppercase; color: rgba(234,247,251,.4);">{{ t.depthLabel }}</span>
+        </div>
+      </div>
+
+      <!-- ============ YÜKLEME EKRANI ============ -->
+      <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
+        <div ref="{{ loaderRef }}" onClick="{{ dive }}"
+          style="position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; overflow: hidden; cursor: pointer; background: radial-gradient(130% 100% at 50% 0%, #020914 0%, #05162e 52%, #0a0b1e 100%); transition: opacity 1.2s ease, filter 1.2s ease; opacity: {{ loaderOpacity }}; filter: {{ loaderFilter }}; pointer-events: {{ loaderPointerEvents }};">
+          <video ref="{{ bgVideoRef }}" src="./uploads/background.mp4" muted="{{ true }}" autoPlay="{{ true }}" loop="{{ true }}"
+            playsInline="{{ true }}"
+            style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: .75; pointer-events: none;"></video>
+          <sc-if value="{{ diving }}" hint-placeholder-val="{{ false }}">
+            <sc-for list="{{ bubbles }}" as="b" hint-placeholder-count="0">
+              <span
+                style="position: absolute; left: {{ b.left }}%; bottom: -90px; width: {{ b.size }}px; height: {{ b.size }}px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, rgba(234,247,251,.95), rgba(127,230,240,.28) 55%, rgba(127,230,240,.04) 78%); border: 1px solid rgba(234,247,251,.35); animation: bubbleUp {{ b.dur }}s ease-in {{ b.delay }}s both; z-index: 5;"></span>
+            </sc-for>
+          </sc-if>
+          <div
+            style="display: grid; gap: 24px; justify-items: center; text-align: center; padding: 24px; z-index: 10; position: relative; transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease; opacity: {{ loaderTextOpacity }}; transform: {{ loaderTextTransform }}; filter: {{ loaderTextFilter }};">
+            <h1
+              style="margin: 0; font-weight: normal; font-size: clamp(70px, 13vw, 150px); line-height: .95; letter-spacing: -0.02em; color: #eaf7fb; text-shadow: 0 0 40px rgba(31,182,201,.55), 0 0 100px rgba(155,107,255,.3);">
+              IdleReef</h1>
+            <div
+              style="width: 64px; height: 2px; background: linear-gradient(90deg, rgba(127,230,240,0), #7fe6f0, rgba(127,230,240,0));">
+            </div>
+
+            <div
+              style="display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: clamp(18px, 2.2vw, 24px); letter-spacing: 0.05em; color: #020914; text-decoration: none; padding: 18px 48px; border-radius: 999px; background: linear-gradient(135deg, #7fe6f0 0%, #1fb6c9 50%, #0284c7 100%); box-shadow: 0 0 30px rgba(31, 182, 201, 0.35), 0 10px 25px rgba(2, 9, 15, 0.5); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;"
+              style-hover="transform: scale(1.04); box-shadow: 0 0 50px rgba(31, 182, 201, 0.65), 0 15px 35px rgba(2, 9, 15, 0.6);">
+              {{ t.diveText }}
+            </div>
+
+            <div style="font-size: 16px; letter-spacing: .12em; color: rgba(234,247,251,.4); font-weight: 500;">{{ t.headphonesRecommend }}</div>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </x-dc>
+  <script type="text/x-dc" data-dc-script>
+const TRANSLATIONS = {
+  tr: {
+    // Loading Screen
+    diveText: "Dalmak için tıkla",
+    headphonesRecommend: "kulaklık önerilir",
+    
+    // Hero Section
+    relaxingExperience: "Rahatlatıcı bir idle deneyimi",
+    heroDesc: "Huzurlu bir resifi sıfırdan inşa et. Sakin sular, parlayan yumurtalar ve tamamen sana ait bir sualtı dünyası. Kendi ekosistemini kendi temponla kur.",
+    startDive: "Dalışı Başlat",
+    addToWishlist: "İstek Listene Ekle",
+    scrollDown: "Aşağı kaydır",
+    
+    // Nedir Section
+    whatIsTitle: "IdleReef nedir",
+    whatIsHeading: "Kendi sualtı ekosistemini kuruyorsun. Acele etmeden.",
+    whatIsDesc: "IdleReef, rahatlatıcı bir balık yetiştirme ve simülasyon oyunu. Boş bir camın ardında küçük bir resif başlatıyor; mercanları, bitkileri ve balıkları kendi temponla seçiyorsun. Zaman baskısı yok, kaybetmek yok — sadece yavaşça büyüyen, sana ait bir su dünyası var.",
+    
+    // Nasil Calisir Section
+    howItWorksTitle: "Nasıl çalışır",
+    howItWorksHeading: "Sen uzaktayken bile resifin yaşar.",
+    howItWorksDesc: "Oyun açık kaldığı sürece resifin kendi kendine puan üretir. Bilgisayarın başında olmana gerek yok; döndüğünde seni biriken puanlar ve biraz daha büyümüş bir ekosistem karşılar.",
+    howItWorksCard1Title: "Bırak, aksın",
+    howItWorksCard1Desc: "Oyunu aç ve kendi işine bak. Resif arka planda sessizce çalışır.",
+    howItWorksCard2Title: "Puanlar birikir",
+    howItWorksCard2Desc: "Her dakika otomatik puan kazanırsın; balıkların çoğaldıkça akış hızlanır.",
+    howItWorksCard3Title: "Döndüğünde harca",
+    howItWorksCard3Desc: "Biriken puanlarla akvaryumunu geliştir, yeni yumurtalar aç.",
+    
+    // Ozellikler Section
+    featuresTitle: "Özellikler",
+    featuresHeading: "Küçük bir cam dünya, içinde koca bir hayat.",
+    feature1Title: "Akvaryumunu geliştir",
+    feature1Desc: "Zemininden ışığına kadar her şeyi kademe kademe zenginleştir.",
+    feature2Title: "Nadir balıklar çıkar",
+    feature2Desc: "Farklı yumurtalar aç; Common'dan Mythic'e uzanan türleri keşfet.",
+    feature3Title: "Steam Pazarı'nda sat",
+    feature3Desc: "Nadir balıklarını Steam Topluluk Pazarı'nda satarak gerçek değer kazan.",
+    feature4Title: "Sakinleştirici atmosfer",
+    feature4Desc: "Yumuşak ışık, süzülen balıklar ve ambient sesler. Akşamın en sakin köşesi.",
+    
+    // Gelistirme Section
+    upgradesTitle: "Geliştirme",
+    upgradesHeading: "Resifin seninle birlikte büyür.",
+    
+    // Yumurta Section
+    eggsTitle: "Yumurtalar",
+    eggsHeading: "Her yumurta küçük bir sürpriz.",
+    eggsDesc: "Biriktirdiğin puanlarla yumurta al, sabırla bekle ve açılma anının tadını çıkar. İçinden ne çıkacağını kimse bilemez.",
+    eggVideoNote: "yumurta.mp4 klasöre eklendiğinde açılma videosu burada oynayacak",
+    
+    // Final Section
+    finalTitle: "Eve dönüş",
+    finalHeading: "Resif seni bekliyor.",
+    finalDesc: "newo yuvasına döndü. Sıra sende — kendi resifini kur, büyüt ve camın ardındaki huzuru izle.",
+    steamWishlist: "Steam'de İstek Listene Ekle",
+    comingSoon: "Yakında Steam'de",
+    footerCopyright: "© 2026 IdleReef — derin sular sakin sulardır.",
+    
+    // Controls / System
+    soundTitle: "Ambient sualtı sesi",
+    soundAriaLabel: "Ambient sesi aç veya kapat",
+    depthLabel: "derinlik"
+  },
+  en: {
+    // Loading Screen
+    diveText: "Click to dive",
+    headphonesRecommend: "headphones recommended",
+    
+    // Hero Section
+    relaxingExperience: "A relaxing idle experience",
+    heroDesc: "Build a peaceful reef from scratch. Calm waters, glowing eggs, and an underwater world entirely yours. Establish your ecosystem at your own pace.",
+    startDive: "Start Dive",
+    addToWishlist: "Add to Wishlist",
+    scrollDown: "Scroll down",
+    
+    // Nedir Section
+    whatIsTitle: "What is IdleReef",
+    whatIsHeading: "You build your own underwater ecosystem. No rush.",
+    whatIsDesc: "IdleReef is a relaxing fish breeding and simulation game. It starts a small reef behind a blank glass; you choose corals, plants, and fish at your own pace. No time pressure, no losing — just a slowly growing water world of your own.",
+    
+    // Nasil Calisir Section
+    howItWorksTitle: "How it works",
+    howItWorksHeading: "Your reef lives even when you are away.",
+    howItWorksDesc: "As long as the game remains open, your reef generates points on its own. You don't need to be at the computer; when you return, you are welcomed by accumulated points and a slightly larger ecosystem.",
+    howItWorksCard1Title: "Let it flow",
+    howItWorksCard1Desc: "Open the game and go about your day. The reef works silently in the background.",
+    howItWorksCard2Title: "Points accumulate",
+    howItWorksCard2Desc: "You earn points automatically every minute; as your fish multiply, the flow speeds up.",
+    howItWorksCard3Title: "Spend when you return",
+    howItWorksCard3Desc: "Upgrade your aquarium and hatch new eggs with accumulated points.",
+    
+    // Ozellikler Section
+    featuresTitle: "Features",
+    featuresHeading: "A small glass world with a vast life inside.",
+    feature1Title: "Upgrade your aquarium",
+    feature1Desc: "Enrich everything from the seabed to the lighting step by step.",
+    feature2Title: "Hatch rare fish",
+    feature2Desc: "Hatch different eggs; discover species ranging from Common to Mythic.",
+    feature3Title: "Sell on the Steam Market",
+    feature3Desc: "Sell your rare fish on the Steam Community Market to gain real value.",
+    feature4Title: "Calming atmosphere",
+    feature4Desc: "Soft light, drifting fish, and ambient sounds. The calmest corner of the evening.",
+    
+    // Gelistirme Section
+    upgradesTitle: "Upgrades",
+    upgradesHeading: "Your reef grows along with you.",
+    
+    // Yumurta Section
+    eggsTitle: "Eggs",
+    eggsHeading: "Every egg is a small surprise.",
+    eggsDesc: "Get eggs with accumulated points, wait patiently, and enjoy the moment of hatching. Nobody knows what will come out.",
+    eggVideoNote: "When yumurta.mp4 is added to the folder, the hatching video will play here",
+    
+    // Final Section
+    finalTitle: "Coming home",
+    finalHeading: "The reef awaits you.",
+    finalDesc: "newo has returned home. It's your turn — build your own reef, grow it, and watch the peace behind the glass.",
+    steamWishlist: "Add to Wishlist on Steam",
+    comingSoon: "Coming Soon to Steam",
+    footerCopyright: "© 2026 IdleReef — deep waters are calm waters.",
+    
+    // Controls / System
+    soundTitle: "Ambient underwater sound",
+    soundAriaLabel: "Toggle ambient sound",
+    depthLabel: "depth"
+  }
+};
+
+class Component extends DCLogic {
+  state = { loading: true, diving: false, entered: false, eggOpen: false, soundOn: false, level: 1, bubbles: [], lang: 'tr' };
+
+  LEVELS_TR = {
+    1: { badge: 'Seviye 1', title: 'Mütevazı bir başlangıç', desc: 'Birkaç mercan, sade bir kum zemin ve ilk sakinin. Her resif, tek bir balıkla başlar.', filter: 'saturate(.55) brightness(.7) contrast(.95)', scale: 1, img: 'uploads/seviye1.png', stats: ['1 Balık', '2 Mercan', 'Sade Zemin'] },
+    2: { badge: 'Seviye 2', title: 'Resifin canlanıyor', desc: 'Yeni mercanlar, salınan su bitkileri ve renkli ziyaretçiler. Puanların resife hayat veriyor.', filter: 'saturate(.92) brightness(.92)', scale: 1.04, img: 'uploads/seviye2.png', stats: ['6 Balık', '12 Mercan', 'Su Bitkileri'] },
+    3: { badge: 'Seviye 3', title: 'Tam bir ekosistem', desc: 'Işıl ışıl bir resif, nadir türler ve kendi kendine işleyen bir denge. Artık burası bir yuva.', filter: 'saturate(1.18) brightness(1.06)', scale: 1.09, img: 'uploads/seviye3.png', stats: ['20+ Balık', 'Canlı Resif', 'Nadir Türler'] }
+  };
+
+  LEVELS_EN = {
+    1: { badge: 'Level 1', title: 'A humble beginning', desc: 'A few corals, a simple sandy bottom, and your first inhabitant. Every reef starts with a single fish.', filter: 'saturate(.55) brightness(.7) contrast(.95)', scale: 1, img: 'uploads/seviye1.png', stats: ['1 Fish', '2 Corals', 'Simple Bottom'] },
+    2: { badge: 'Level 2', title: 'Your reef comes alive', desc: 'New corals, swaying water plants, and colorful visitors. Your points bring the reef to life.', filter: 'saturate(.92) brightness(.92)', scale: 1.04, img: 'uploads/seviye2.png', stats: ['6 Fish', '12 Corals', 'Water Plants'] },
+    3: { badge: 'Level 3', title: 'A complete ecosystem', desc: 'A glowing reef, rare species, and a self-sustaining balance. Now this is a home.', filter: 'saturate(1.18) brightness(1.06)', scale: 1.09, img: 'uploads/seviye3.png', stats: ['20+ Fish', 'Vibrant Reef', 'Rare Species'] }
+  };
+
+  setLangTR = () => this.setState({ lang: 'tr' });
+  setLangEN = () => this.setState({ lang: 'en' });
+
+  TIERS = [
+    { name: 'Common', tr: 'Sıradan', color: '#9aa7b0', glow: 'rgba(154,167,176,.45)', delay: 0, dur: 4.2 },
+    { name: 'Uncommon', tr: 'Az Bulunur', color: '#4cd07a', glow: 'rgba(76,208,122,.45)', delay: 80, dur: 4.8 },
+    { name: 'Rare', tr: 'Nadir', color: '#3aa7ff', glow: 'rgba(58,167,255,.45)', delay: 160, dur: 4.5 },
+    { name: 'Epic', tr: 'Epik', color: '#9b6bff', glow: 'rgba(155,107,255,.5)', delay: 240, dur: 5.1 },
+    { name: 'Legendary', tr: 'Efsanevi', color: '#ffb43a', glow: 'rgba(255,180,58,.5)', delay: 320, dur: 4.4 },
+    { name: 'Mythic', tr: 'Mitik', color: '#ff5d7a', glow: 'rgba(255,93,122,.5)', delay: 400, dur: 5.4 }
+  ];
+
+  rootRef = (el) => { this._root = el; };
+  fishRef = (el) => { this._fish = el; };
+  contentRef = (el) => { this._content = el; };
+  glRef = (el) => { this._glc = el; };
+  tankRef = (el) => { this._tank = el; };
+  tankFxRef = (el) => { this._tankFx = el; };
+  loaderRef = (el) => { this._loader = el; };
+  depthRef = (el) => { this._depth = el; };
+  bgVideoRef = (el) => {
+    this._bgv = el;
+    if (el && !el._wired) {
+      el._wired = true;
+      el.addEventListener('error', () => { el.style.display = 'none'; }, true);
+      const p = el.play && el.play(); if (p && p.catch) p.catch(() => {});
+    }
+  };
+  eggVideoRef = (el) => {
+    this._eggv = el;
+    if (el && !el._wired) {
+      el._wired = true;
+      el.addEventListener('error', () => {
+        el.style.display = 'none';
+        const note = el.parentElement && el.parentElement.querySelector('[data-egg-note]');
+        if (note) note.style.display = 'grid';
+      }, true);
+      const p = el.play && el.play(); if (p && p.catch) p.catch(() => {});
+    }
+  };
+
+  componentDidMount() {
+    this._rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._mobile = window.matchMedia('(max-width: 760px)').matches;
+    document.body.style.overflow = 'hidden';
+    this._fx = innerWidth * 0.76; this._fy = innerHeight * 0.58;
+    this._dir = 1; this._scale = this._mobile ? 0.85 : 1; this._tilt = 0; this._pfy = this._fy;
+    this._t0 = performance.now(); this._frame = 0;
+    this._setupReveals();
+    this._setupAssetFallbacks();
+    if (!this._rm) this._initCaustics();
+    this._onResize = () => { this._sizeCanvases(); };
+    addEventListener('resize', this._onResize);
+    this._sizeCanvases();
+    this._raf = requestAnimationFrame(this._tick);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this._raf);
+    removeEventListener('resize', this._onResize);
+    if (this._io) this._io.disconnect();
+    if (this._mo) this._mo.disconnect();
+    if (this._ac) this._ac.close();
+    document.body.style.overflow = '';
+  }
+
+  /* ---------- yükleme / dalış ---------- */
+  dive = () => {
+    if (this.state.diving) return;
+    const bubbles = Array.from({ length: 44 }, () => ({
+      left: +(Math.random() * 100).toFixed(1),
+      size: Math.round(8 + Math.random() * 46),
+      dur: +(1.1 + Math.random() * 1.5).toFixed(2),
+      delay: +(Math.random() * 0.55).toFixed(2)
+    }));
+    this.setState({ diving: true, bubbles });
+    const t1 = this._rm ? 120 : 1450;
+    setTimeout(() => {
+      this.setState({ entered: true });
+      if (this._fish) this._fish.style.opacity = '1';
+      document.body.style.overflow = '';
+    }, t1);
+    setTimeout(() => this.setState({ loading: false }), this._rm ? 350 : 2700);
+  };
+
+  /* ---------- scroll reveal ---------- */
+  _setupReveals() {
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'none';
+          this._io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.18 });
+    const prep = (el) => {
+      if (el._revealed) return;
+      el._revealed = true;
+      if (this._rm) return;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(38px)';
+      el.style.transition = 'opacity 1.1s ease, transform 1.1s cubic-bezier(.22,.61,.36,1)';
+      el.style.transitionDelay = (parseInt(el.getAttribute('data-reveal') || '0', 10)) + 'ms';
+      this._io.observe(el);
+    };
+    document.querySelectorAll('[data-reveal]').forEach(prep);
+    this._mo = new MutationObserver(() => {
+      document.querySelectorAll('[data-reveal]').forEach(prep);
+    });
+    if (this._root) this._mo.observe(this._root, { childList: true, subtree: true });
+  }
+
+  /* ---------- eksik asset yer tutucuları ---------- */
+  _setupAssetFallbacks() {
+    const wire = (img) => {
+      if (img._fbWired) return;
+      img._fbWired = true;
+      img.addEventListener('error', () => {
+        img.style.display = 'none';
+        if (img.parentElement.querySelector('[data-ph]')) return;
+        const ph = document.createElement('div');
+        ph.setAttribute('data-ph', '1');
+        ph.style.cssText = 'position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:#7fe6f0;background:repeating-linear-gradient(45deg,rgba(127,230,240,.04) 0 16px,rgba(127,230,240,.09) 16px 32px);font:600 20px "Plus Jakarta Sans",sans-serif;letter-spacing:.04em;line-height:1.5;';
+        ph.textContent = img.getAttribute('data-asset') + '.png buraya gelecek — dosyayı siteyle aynı klasöre ekleyin';
+        img.parentElement.appendChild(ph);
+      });
+      if (img.complete && img.naturalWidth === 0 && img.src) img.dispatchEvent(new Event('error'));
+    };
+    const scan = () => document.querySelectorAll('img[data-asset]').forEach(wire);
+    scan();
+    setTimeout(scan, 1500);
+    setTimeout(scan, 4000);
+  }
+
+  /* ---------- ana animasyon döngüsü ---------- */
+  _tick = (now) => {
+    const t = (now - this._t0) / 1000;
+    this._frame++;
+    this._updateFish(t);
+    this._updateDepth();
+    if (this._gl && !(this._mobile && this._frame % 2)) this._drawCaustics(t);
+    if (this._tankFx && !this._rm) this._drawTank(t);
+    this._raf = requestAnimationFrame(this._tick);
+  };
+
+  _updateDepth() {
+    if (!this._depth || this._frame % 6) return;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const d = max > 0 ? Math.round((scrollY / max) * 42) : 0;
+    const txt = '-' + d + ' m';
+    if (this._depth.textContent !== txt) this._depth.textContent = d === 0 ? '0 m' : txt;
+  }
+
+  _updateFish(t) {
+    const f = this._fish;
+    if (!f || !this.state.entered) return;
+    const vw = innerWidth, vh = innerHeight;
+    let tx, ty, ts, inTank = false;
+    if (this._tank) {
+      const r = this._tank.getBoundingClientRect();
+      if (r.top < vh * 0.55 && r.bottom > vh * 0.1 && r.width > 50) {
+        inTank = true;
+        const cx = r.left + r.width / 2, cy = r.top + r.height * 0.55;
+        tx = cx + Math.sin(t * 0.42) * r.width * 0.27;
+        ty = cy + Math.sin(t * 0.77 + 1.6) * r.height * 0.14 + Math.sin(t * 0.21) * r.height * 0.07;
+        ts = Math.max(0.3, Math.min(0.52, r.width / (f.offsetWidth * 4.4)));
+      }
+    }
+    if (!inTank) {
+      if (!this._anchors || this._frame % 150 === 0) this._anchors = [...document.querySelectorAll('[data-fish-x]')];
+      let best = null, bd = 1e9;
+      this._anchors.forEach((s) => {
+        const r = s.getBoundingClientRect();
+        const d = Math.abs(r.top + r.height / 2 - vh / 2);
+        if (d < bd) { bd = d; best = s; }
+      });
+      const ax = best ? parseFloat(best.getAttribute('data-fish-x')) : 0.76;
+      const ay = best ? parseFloat(best.getAttribute('data-fish-y')) : 0.55;
+      tx = ax * vw + Math.sin(t * 0.5) * 24;
+      ty = ay * vh + Math.sin(t * 0.73) * 18;
+      ts = this._mobile ? 0.8 : 1;
+    }
+    const k = this._rm ? 1 : 0.042;
+    this._fx += (tx - this._fx) * k;
+    this._fy += (ty - this._fy) * k;
+    this._scale += (ts - this._scale) * 0.05;
+    const dx = tx - this._fx;
+    if (Math.abs(dx) > 36) this._dir = dx < 0 ? 1 : -1;
+    const vy = this._fy - this._pfy; this._pfy = this._fy;
+    const tiltTarget = Math.max(-13, Math.min(13, vy * 2.2)) * (this._dir === 1 ? 1 : -1);
+    this._tilt += (tiltTarget - this._tilt) * 0.07;
+    const w = f.offsetWidth, h = f.offsetHeight;
+    f.style.transform = 'translate3d(' + (this._fx - w / 2) + 'px,' + (this._fy - h / 2) + 'px,0) scale(' + this._scale + ') scaleX(' + this._dir + ') rotate(' + this._tilt + 'deg)';
+  }
+
+  /* ---------- WebGL caustics ---------- */
+  _initCaustics() {
+    const c = this._glc;
+    if (!c) { setTimeout(() => this._initCaustics(), 400); return; }
+    let gl;
+    try { gl = c.getContext('webgl', { alpha: false, antialias: false, depth: false }); } catch (e) { gl = null; }
+    if (!gl) { c.style.display = 'none'; return; }
+    const vsrc = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+    const fsrc = 'precision mediump float;uniform float u_t;uniform vec2 u_r;' +
+      'void main(){' +
+      'vec2 uv=gl_FragCoord.xy/u_r;' +
+      'uv.x*=u_r.x/u_r.y;' +
+      'vec2 p=mod(uv*6.28318*1.6,6.28318)-250.0;' +
+      'vec2 i=p;float c=1.0;float inten=.005;' +
+      'for(int n=0;n<4;n++){' +
+      'float tt=u_t*0.6*(1.0-(3.5/float(n+1)));' +
+      'i=p+vec2(cos(tt-i.x)+sin(tt+i.y),sin(tt-i.y)+cos(tt+i.x));' +
+      'c+=1.0/length(vec2(p.x/(sin(i.x+tt)/inten),p.y/(cos(i.y+tt)/inten)));' +
+      '}' +
+      'c/=4.0;c=1.17-pow(c,1.4);' +
+      'float v=pow(abs(c),8.0);' +
+      'vec3 col=v*vec3(0.30,0.78,0.88)+pow(v,2.2)*vec3(0.45,0.30,0.85)*0.35;' +
+      'float depth=smoothstep(1.0,0.0,gl_FragCoord.y/u_r.y);' +
+      'col*=mix(1.0,0.35,depth);' +
+      'gl_FragColor=vec4(col,1.0);' +
+      '}';
+    const mk = (type, src) => {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; }
+      return s;
+    };
+    const vs = mk(gl.VERTEX_SHADER, vsrc), fs = mk(gl.FRAGMENT_SHADER, fsrc);
+    if (!vs || !fs) { c.style.display = 'none'; return; }
+    const prog = gl.createProgram();
+    gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+    gl.useProgram(prog);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'p');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    this._gl = gl;
+    this._uT = gl.getUniformLocation(prog, 'u_t');
+    this._uR = gl.getUniformLocation(prog, 'u_r');
+    this._sizeCanvases();
+  }
+
+  _sizeCanvases() {
+    this._mobile = window.matchMedia('(max-width: 760px)').matches;
+    if (this._glc && this._gl) {
+      const s = this._mobile ? 0.3 : 0.5;
+      const w = Math.max(2, innerWidth * s | 0), h = Math.max(2, innerHeight * s | 0);
+      if (this._glc.width !== w || this._glc.height !== h) {
+        this._glc.width = w; this._glc.height = h;
+        this._gl.viewport(0, 0, w, h);
+      }
+    }
+    if (this._tankFx) {
+      const r = this._tankFx.getBoundingClientRect();
+      const w = Math.max(2, r.width * 0.7 | 0), h = Math.max(2, r.height * 0.7 | 0);
+      if (Math.abs(this._tankFx.width - w) > 4) { this._tankFx.width = w; this._tankFx.height = h; }
+    }
+  }
+
+  _drawCaustics(t) {
+    const gl = this._gl;
+    gl.uniform1f(this._uT, t);
+    gl.uniform2f(this._uR, this._glc.width, this._glc.height);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+
+  /* ---------- akvaryum içi 2D shader ---------- */
+  _drawTank(t) {
+    const c = this._tankFx;
+    if (!c.width || c.width < 4) { this._sizeCanvases(); return; }
+    if (this._frame % 90 === 0) this._sizeCanvases();
+    const ctx = c.getContext('2d');
+    const w = c.width, h = c.height;
+    ctx.clearRect(0, 0, w, h);
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < 6; i++) {
+      const x = (Math.sin(t * 0.27 + i * 2.3) * 0.5 + 0.5) * w;
+      const y = h * 0.12 + (i / 6) * h * 0.45 + Math.sin(t * 0.5 + i * 1.7) * h * 0.06;
+      const rad = h * (0.16 + 0.1 * Math.sin(t * 0.4 + i));
+      const g = ctx.createRadialGradient(x, y, 0, x, y, Math.abs(rad) + 8);
+      g.addColorStop(0, 'rgba(127,230,240,0.10)');
+      g.addColorStop(0.6, 'rgba(31,182,201,0.05)');
+      g.addColorStop(1, 'rgba(31,182,201,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.ellipse(x, y, Math.abs(rad) * 1.5 + 8, Math.abs(rad) + 6, Math.sin(t * 0.2 + i), 0, 6.2832);
+      ctx.fill();
+    }
+    if (!this._bubs) {
+      this._bubs = Array.from({ length: 22 }, () => ({
+        x: Math.random(), y: Math.random(), r: 1.5 + Math.random() * 3.5,
+        v: 0.0012 + Math.random() * 0.0024, wob: Math.random() * 6.28
+      }));
+    }
+    ctx.strokeStyle = 'rgba(234,247,251,.4)';
+    ctx.fillStyle = 'rgba(234,247,251,.14)';
+    this._bubs.forEach((b) => {
+      b.y -= b.v;
+      if (b.y < -0.04) { b.y = 1.04; b.x = Math.random(); }
+      const bx = (b.x + Math.sin(t * 1.1 + b.wob) * 0.012) * w;
+      const by = b.y * h;
+      ctx.beginPath();
+      ctx.arc(bx, by, b.r, 0, 6.2832);
+      ctx.fill();
+      ctx.stroke();
+    });
+  }
+
+  /* ---------- yumurta ---------- */
+  openEgg = () => this.setState({ eggOpen: true });
+  closeEgg = () => this.setState({ eggOpen: false });
+  stopProp = (e) => e.stopPropagation();
+
+  /* ---------- ambient ses ---------- */
+  toggleSound = () => {
+    const on = !this.state.soundOn;
+    this.setState({ soundOn: on });
+    if (on) this._startAmbient(); else this._stopAmbient();
+  };
+
+  _startAmbient() {
+    if (!this._ac) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      this._ac = new AC();
+      const len = this._ac.sampleRate * 4;
+      const buf = this._ac.createBuffer(1, len, this._ac.sampleRate);
+      const d = buf.getChannelData(0);
+      let last = 0;
+      for (let i = 0; i < len; i++) {
+        const wn = Math.random() * 2 - 1;
+        last = (last + 0.02 * wn) / 1.02;
+        d[i] = last * 3.5;
+      }
+      const src = this._ac.createBufferSource();
+      src.buffer = buf; src.loop = true;
+      const lp = this._ac.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 300; lp.Q.value = 0.7;
+      const g = this._ac.createGain(); g.gain.value = 0;
+      const lfo = this._ac.createOscillator(); lfo.frequency.value = 0.07;
+      const lfoG = this._ac.createGain(); lfoG.gain.value = 110;
+      lfo.connect(lfoG); lfoG.connect(lp.frequency);
+      src.connect(lp); lp.connect(g); g.connect(this._ac.destination);
+      src.start(); lfo.start();
+      this._amb = g;
+    }
+    this._ac.resume();
+    const now = this._ac.currentTime;
+    this._amb.gain.cancelScheduledValues(now);
+    this._amb.gain.setValueAtTime(this._amb.gain.value, now);
+    this._amb.gain.linearRampToValueAtTime(0.08, now + 1.6);
+  }
+
+  _stopAmbient() {
+    if (!this._amb || !this._ac) return;
+    const now = this._ac.currentTime;
+    this._amb.gain.cancelScheduledValues(now);
+    this._amb.gain.setValueAtTime(this._amb.gain.value, now);
+    this._amb.gain.linearRampToValueAtTime(0.0001, now + 0.8);
+  }
+
+  renderVals() {
+    const isTR = this.state.lang === 'tr';
+    const L = isTR ? this.LEVELS_TR[this.state.level] : this.LEVELS_EN[this.state.level];
+    const diving = this.state.diving;
+    const entered = this.state.entered;
+
+    let contentTransition = 'none';
+    let contentFilter = 'blur(0px)';
+    let contentTransform = 'none';
+    if (diving && !this._rm) {
+      contentTransition = 'filter 1.9s ease, transform 1.9s ease';
+      contentFilter = entered ? 'blur(0px)' : 'blur(16px)';
+      contentTransform = entered ? 'none' : 'scale(1.045)';
+    }
+
+    let loaderOpacity = 1;
+    let loaderFilter = 'none';
+    let loaderPointerEvents = 'auto';
+    if (entered) {
+      loaderOpacity = 0;
+      loaderFilter = 'blur(8px)';
+      loaderPointerEvents = 'none';
+    }
+
+    let loaderTextOpacity = 1;
+    let loaderTextTransform = 'none';
+    let loaderTextFilter = 'none';
+    if (diving) {
+      loaderTextOpacity = 0;
+      loaderTextTransform = 'scale(0.95)';
+      loaderTextFilter = 'blur(8px)';
+    }
+
+    const t = isTR ? TRANSLATIONS.tr : TRANSLATIONS.en;
+
+    const langTRWeight = isTR ? '700' : '500';
+    const langTRBg = isTR ? 'linear-gradient(135deg, #7fe6f0 0%, #1fb6c9 100%)' : 'transparent';
+    const langTRCol = isTR ? '#020914' : 'rgba(234, 247, 251, 0.6)';
+    const langTRShadow = isTR ? '0 0 12px rgba(31, 182, 201, 0.4)' : 'none';
+
+    const langENWeight = !isTR ? '700' : '500';
+    const langENBg = !isTR ? 'linear-gradient(135deg, #7fe6f0 0%, #1fb6c9 100%)' : 'transparent';
+    const langENCol = !isTR ? '#020914' : 'rgba(234, 247, 251, 0.6)';
+    const langENShadow = !isTR ? '0 0 12px rgba(31, 182, 201, 0.4)' : 'none';
+
+    return {
+      loading: this.state.loading,
+      diving: this.state.diving,
+      bubbles: this.state.bubbles,
+      eggOpen: this.state.eggOpen,
+      soundOn: this.state.soundOn,
+      soundOff: !this.state.soundOn,
+      dive: this.dive,
+      openEgg: this.openEgg,
+      closeEgg: this.closeEgg,
+      stopProp: this.stopProp,
+      toggleSound: this.toggleSound,
+      setLangTR: this.setLangTR,
+      setLangEN: this.setLangEN,
+      langTRWeight,
+      langTRBg,
+      langTRCol,
+      langTRShadow,
+      langENWeight,
+      langENBg,
+      langENCol,
+      langENShadow,
+      t,
+      contentTransition,
+      contentFilter,
+      contentTransform,
+      loaderOpacity,
+      loaderFilter,
+      loaderPointerEvents,
+      loaderTextOpacity,
+      loaderTextTransform,
+      loaderTextFilter,
+      rootRef: this.rootRef,
+      fishRef: this.fishRef,
+      contentRef: this.contentRef,
+      glRef: this.glRef,
+      tankRef: this.tankRef,
+      tankFxRef: this.tankFxRef,
+      loaderRef: this.loaderRef,
+      depthRef: this.depthRef,
+      bgVideoRef: this.bgVideoRef,
+      eggVideoRef: this.eggVideoRef,
+      levelTabs: [1, 2, 3].map((n) => {
+        const active = this.state.level === n;
+        return {
+          label: (isTR ? 'Seviye ' : 'Level ') + n,
+          onClick: () => this.setState({ level: n }),
+          bg: active ? 'rgba(31,182,201,.28)' : 'rgba(10,36,56,.55)',
+          bd: active ? '#1fb6c9' : 'rgba(127,230,240,.2)',
+          col: active ? '#7fe6f0' : 'rgba(234,247,251,.6)'
+        };
+      }),
+      levelBadge: L.badge,
+      levelTitle: L.title,
+      levelDesc: L.desc,
+      levelFilter: L.filter,
+      levelScale: L.scale,
+      levelStats: L.stats,
+      levelImg: L.img,
+      tiers: this.TIERS
+    };
+  }
+}
+</script>
+</body>
+
+</html>
