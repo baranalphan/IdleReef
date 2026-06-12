@@ -1023,6 +1023,35 @@ class Component extends DCLogic {
       playVideo();
     }
   };
+  playBubbleSound = (delay = 0, pitchOffset = 0) => {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    if (!this._ac) {
+      this._ac = new AC();
+    }
+    const ctx = this._ac;
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+    const t = ctx.currentTime + delay;
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+
+    const startFreq = 400 + Math.random() * 300 + pitchOffset;
+    const endFreq = 1000 + Math.random() * 400 + pitchOffset;
+    const duration = 0.08 + Math.random() * 0.08;
+
+    osc.frequency.setValueAtTime(startFreq, t);
+    osc.frequency.exponentialRampToValueAtTime(endFreq, t + duration);
+
+    gainNode.gain.setValueAtTime(0.015, t);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+
+    osc.start(t);
+    osc.stop(t + duration + 0.05);
+  };
   eggVideoRef = (el) => {
     this._eggv = el;
     if (el && !el._wired) {
@@ -1036,23 +1065,11 @@ class Component extends DCLogic {
         const note = el.parentElement && el.parentElement.querySelector('[data-egg-note]');
         if (note) note.style.display = 'grid';
       }, true);
-      const playVideo = () => {
-        const p = el.play && el.play();
-        if (p && p.catch) {
-          p.catch(() => {
-            const playOnTouch = () => {
-              el.play().catch(() => {});
-              document.removeEventListener('touchstart', playOnTouch);
-            };
-            document.addEventListener('touchstart', playOnTouch);
-          });
-        }
-      };
-      playVideo();
     }
   };
 
   componentDidMount() {
+    this._lastSection = null;
     this._rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this._mobile = window.matchMedia('(max-width: 760px)').matches;
     document.body.style.overflow = 'hidden';
@@ -1080,13 +1097,21 @@ class Component extends DCLogic {
   /* ---------- yükleme / dalış ---------- */
   dive = () => {
     if (this.state.diving) return;
-    const bubbles = Array.from({ length: 44 }, () => ({
+    const bubbles = Array.from({ length: 120 }, () => ({
       left: +(Math.random() * 100).toFixed(1),
       size: Math.round(8 + Math.random() * 46),
       dur: +(1.1 + Math.random() * 1.5).toFixed(2),
       delay: +(Math.random() * 0.55).toFixed(2)
     }));
     this.setState({ diving: true, bubbles });
+
+    // Play a cascade of bubble sounds
+    for (let i = 0; i < 35; i++) {
+      const delay = Math.random() * 1.5;
+      const pitch = (35 - i) * 8;
+      this.playBubbleSound(delay, pitch);
+    }
+
     const t1 = this._rm ? 120 : 1450;
     setTimeout(() => {
       this.setState({ entered: true });
@@ -1163,6 +1188,30 @@ class Component extends DCLogic {
     const d = max > 0 ? Math.round((scrollY / max) * 42) : 0;
     const txt = '-' + d + ' m';
     if (this._depth.textContent !== txt) this._depth.textContent = d === 0 ? '0 m' : txt;
+
+    // Detect when active section changes to play scroll bubble sounds
+    if (!this._sections) {
+      this._sections = [...document.querySelectorAll('section')];
+    }
+    let activeSec = null;
+    let minDiff = 1e9;
+    this._sections.forEach((sec) => {
+      const r = sec.getBoundingClientRect();
+      const diff = Math.abs(r.top);
+      if (diff < minDiff) {
+        minDiff = diff;
+        activeSec = sec.id;
+      }
+    });
+
+    if (activeSec && this._lastSection !== activeSec) {
+      if (this._lastSection !== null) {
+        for (let i = 0; i < 3; i++) {
+          this.playBubbleSound(0.08 * i + Math.random() * 0.05);
+        }
+      }
+      this._lastSection = activeSec;
+    }
   }
 
   _updateFish(t) {
