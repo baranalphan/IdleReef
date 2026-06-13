@@ -1178,19 +1178,27 @@ class Component extends DCLogic {
   };
 
   _onClickAnchor = (e) => {
-    const isDesktop = window.matchMedia('(min-width: 1025px)').matches;
-    if (!isDesktop) return;
-
     const a = e.target.closest('a');
-    if (a && a.getAttribute('href') && a.getAttribute('href').startsWith('#')) {
-      const id = a.getAttribute('href').substring(1);
-      const targetSec = document.getElementById(id);
-      if (targetSec) {
-        e.preventDefault();
-        this._sections = [...document.querySelectorAll('section')];
-        const idx = this._sections.indexOf(targetSec);
-        if (idx !== -1) {
-          this._scrollToSection(idx);
+    if (!a) return;
+
+    const href = a.getAttribute('href');
+    if (href === '#') {
+      e.preventDefault();
+      return;
+    }
+
+    if (href && href.startsWith('#')) {
+      const isDesktop = window.matchMedia('(min-width: 1025px)').matches;
+      if (isDesktop) {
+        const id = href.substring(1);
+        const targetSec = document.getElementById(id);
+        if (targetSec) {
+          e.preventDefault();
+          this._sections = [...document.querySelectorAll('section')];
+          const idx = this._sections.indexOf(targetSec);
+          if (idx !== -1) {
+            this._scrollToSection(idx);
+          }
         }
       }
     }
@@ -1216,6 +1224,9 @@ class Component extends DCLogic {
   };
 
   componentDidMount() {
+    if (window.history.replaceState && window.location.href.includes('#')) {
+      window.history.replaceState("", document.title, window.location.pathname + window.location.search);
+    }
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
