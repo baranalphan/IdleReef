@@ -1088,12 +1088,28 @@ class Component extends DCLogic {
             }
           } else {
             if (this._isFullscreen) {
-              setTimeout(() => {
+              this._isFullscreen = false;
+              const sections = [...document.querySelectorAll('section')];
+              const eggSec = document.getElementById('yumurta');
+              if (eggSec && sections.length) {
+                const idx = sections.indexOf(eggSec);
+                if (idx !== -1) {
+                  this._currentSectionIndex = idx;
+                }
+              }
+              this._isRestoringScroll = true;
+              let frames = 0;
+              const forceScroll = () => {
+                if (!this._isRestoringScroll) return;
                 window.scrollTo(0, this._savedScrollY);
-                setTimeout(() => {
-                  this._isFullscreen = false;
-                }, 100);
-              }, 50);
+                frames++;
+                if (frames < 8) {
+                  requestAnimationFrame(forceScroll);
+                } else {
+                  this._isRestoringScroll = false;
+                }
+              };
+              requestAnimationFrame(forceScroll);
             }
           }
         };
@@ -1111,12 +1127,30 @@ class Component extends DCLogic {
         };
 
         this._onWebkitEndFullscreen = () => {
-          setTimeout(() => {
-            window.scrollTo(0, this._savedScrollY);
-            setTimeout(() => {
-              this._isFullscreen = false;
-            }, 100);
-          }, 50);
+          if (this._isFullscreen) {
+            this._isFullscreen = false;
+            const sections = [...document.querySelectorAll('section')];
+            const eggSec = document.getElementById('yumurta');
+            if (eggSec && sections.length) {
+              const idx = sections.indexOf(eggSec);
+              if (idx !== -1) {
+                this._currentSectionIndex = idx;
+              }
+            }
+            this._isRestoringScroll = true;
+            let frames = 0;
+            const forceScroll = () => {
+              if (!this._isRestoringScroll) return;
+              window.scrollTo(0, this._savedScrollY);
+              frames++;
+              if (frames < 8) {
+                requestAnimationFrame(forceScroll);
+              } else {
+                this._isRestoringScroll = false;
+              }
+            };
+            requestAnimationFrame(forceScroll);
+          }
         };
 
         el.addEventListener('webkitbeginfullscreen', this._onWebkitBeginFullscreen);
@@ -1214,7 +1248,7 @@ class Component extends DCLogic {
   };
 
   _onScroll = () => {
-    if (this._isFullscreen) return;
+    if (this._isFullscreen || this._isRestoringScroll) return;
     const isDesktop = window.matchMedia('(min-width: 1025px)').matches;
     if (!isDesktop) return;
     if (this._isScrolling) return;
@@ -1263,6 +1297,7 @@ class Component extends DCLogic {
   };
 
   _scrollToSection = (index) => {
+    this._isRestoringScroll = false;
     this._sections = [...document.querySelectorAll('section')];
     if (index < 0 || index >= this._sections.length) return;
 
@@ -1284,8 +1319,9 @@ class Component extends DCLogic {
   componentDidMount() {
     this._savedScrollY = window.scrollY;
     this._isFullscreen = false;
+    this._isRestoringScroll = false;
     this._onScrollCapture = () => {
-      if (!this._isFullscreen && window.scrollY > 0) {
+      if (!this._isFullscreen && !this._isRestoringScroll && window.scrollY > 0) {
         this._savedScrollY = window.scrollY;
       }
     };
