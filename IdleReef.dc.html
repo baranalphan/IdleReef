@@ -814,9 +814,11 @@
       <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
         <div ref="{{ loaderRef }}" onClick="{{ dive }}"
           sc-camel-style="position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; overflow: hidden; cursor: pointer; background: radial-gradient(130% 100% at 50% 0%, #020914 0%, #05162e 52%, #0a0b1e 100%); transition: opacity 1.2s ease, filter 1.2s ease; opacity: {{ loaderOpacity }}; filter: {{ loaderFilter }}; pointer-events: {{ loaderPointerEvents }};">
+          <img src="./uploads/arkaplan.png" alt=""
+            style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: .7; filter: contrast(1.05) brightness(0.85); pointer-events: none;">
           <video ref="{{ bgVideoRef }}" src="./uploads/background.mp4" muted="{{ true }}" autoPlay="{{ true }}"
-            loop="{{ true }}" playsInline="{{ true }}"
-            style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: .75; pointer-events: none;"></video>
+            loop="{{ true }}" playsInline="{{ true }}" poster="./uploads/arkaplan.png"
+            style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; opacity: .75; pointer-events: none;"></video>
           <sc-if value="{{ diving }}" hint-placeholder-val="{{ false }}">
             <sc-for list="{{ bubbles }}" as="b" hint-placeholder-count="0">
               <span
