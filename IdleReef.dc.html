@@ -1095,9 +1095,12 @@ class Component extends DCLogic {
         return;
       }
     }
-    // If we are at the last section and scrolling up, allow natural scrolling back to the top of the section first
+    // If we are at the last section and scrolling up, snap to the top of the last section first
     if (e.deltaY < 0 && this._currentSectionIndex === this._sections.length - 1) {
-      if (window.scrollY > lastSec.offsetTop + 2) {
+      if (window.scrollY > lastSec.offsetTop + 10) {
+        e.preventDefault();
+        if (this._isScrolling) return;
+        this._scrollToSection(this._sections.length - 1);
         return;
       }
     }
@@ -1137,7 +1140,10 @@ class Component extends DCLogic {
         this._scrollToSection(this._currentSectionIndex + 1);
       }
     } else if (['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) {
-      if (this._currentSectionIndex === this._sections.length - 1 && window.scrollY > lastSec.offsetTop + 2) {
+      if (this._currentSectionIndex === this._sections.length - 1 && window.scrollY > lastSec.offsetTop + 10) {
+        e.preventDefault();
+        if (this._isScrolling) return;
+        this._scrollToSection(this._sections.length - 1);
         return;
       }
       e.preventDefault();
