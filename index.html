@@ -699,7 +699,7 @@
             <div data-reveal="280"
               style="position: relative; width: min(640px, 100%); aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; border: 1px solid rgba(155,107,255,0.3); background: #04121f; box-shadow: 0 0 40px rgba(155,107,255,0.25), 0 20px 50px rgba(2,9,15,0.6); display: flex; align-items: center; justify-content: center;">
               <video ref="{{ eggVideoRef }}" src="uploads/yumurta.mp4" controls="{{ true }}" playsInline="{{ true }}"
-                loop="{{ true }}" style="width: 100%; height: 100%; object-fit: cover;"></video>
+                loop="{{ false }}" style="width: 100%; height: 100%; object-fit: cover;"></video>
               <div data-egg-note
                 style="display: none; position: absolute; inset: 0; border-radius: 20px; border: 1px dashed rgba(155,107,255,.5); background: rgba(10,36,56,.6); place-items: center; text-align: center; padding: 30px; font-size: clamp(16px, 2vw, 20px); line-height: 1.5; color: #9b6bff;">
                 {{ t.eggVideoNote }}
@@ -1059,18 +1059,64 @@ class Component extends DCLogic {
     osc.stop(t + duration + 0.05);
   };
   eggVideoRef = (el) => {
-    this._eggv = el;
-    if (el && !el._wired) {
-      el._wired = true;
-      el.setAttribute('muted', '');
-      el.setAttribute('playsinline', '');
-      el.muted = true;
-      el.defaultMuted = true;
-      el.addEventListener('error', () => {
-        el.style.display = 'none';
-        const note = el.parentElement && el.parentElement.querySelector('[data-egg-note]');
-        if (note) note.style.display = 'grid';
-      }, true);
+    if (el) {
+      this._eggv = el;
+      if (!el._wired) {
+        el._wired = true;
+        el.setAttribute('muted', '');
+        el.setAttribute('playsinline', '');
+        el.muted = true;
+        el.defaultMuted = true;
+        el.addEventListener('error', () => {
+          el.style.display = 'none';
+          const note = el.parentElement && el.parentElement.querySelector('[data-egg-note]');
+          if (note) note.style.display = 'grid';
+        }, true);
+
+        this._savedScrollY = 0;
+        this._isFullscreen = false;
+
+        this._onFullscreenChange = () => {
+          const fullscreenEl = document.fullscreenElement || 
+                               document.webkitFullscreenElement || 
+                               document.mozFullscreenElement || 
+                               document.msFullscreenElement;
+          
+          if (fullscreenEl === el) {
+            if (!this._isFullscreen) {
+              this._savedScrollY = window.scrollY;
+              this._isFullscreen = true;
+            }
+          } else {
+            if (this._isFullscreen) {
+              this._isFullscreen = false;
+              setTimeout(() => {
+                window.scrollTo(0, this._savedScrollY);
+              }, 50);
+            }
+          }
+        };
+
+        document.addEventListener('fullscreenchange', this._onFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', this._onFullscreenChange);
+        document.addEventListener('mozfullscreenchange', this._onFullscreenChange);
+        document.addEventListener('MSFullscreenChange', this._onFullscreenChange);
+
+        this._onWebkitBeginFullscreen = () => {
+          this._savedScrollY = window.scrollY;
+          this._isFullscreen = true;
+        };
+
+        this._onWebkitEndFullscreen = () => {
+          this._isFullscreen = false;
+          setTimeout(() => {
+            window.scrollTo(0, this._savedScrollY);
+          }, 50);
+        };
+
+        el.addEventListener('webkitbeginfullscreen', this._onWebkitBeginFullscreen);
+        el.addEventListener('webkitendfullscreen', this._onWebkitEndFullscreen);
+      }
     }
   };
 
@@ -1079,7 +1125,7 @@ class Component extends DCLogic {
   _sections = [];
 
   _onWheel = (e) => {
-    if (this.state.loading) return;
+    if (this.state.loading || this._isFullscreen) return;
     const isDesktop = window.matchMedia('(min-width: 1025px)').matches;
     if (!isDesktop) return;
 
@@ -1120,7 +1166,7 @@ class Component extends DCLogic {
   };
 
   _onKeyDown = (e) => {
-    if (this.state.loading) return;
+    if (this.state.loading || this._isFullscreen) return;
     const isDesktop = window.matchMedia('(min-width: 1025px)').matches;
     if (!isDesktop) return;
 
@@ -1163,6 +1209,7 @@ class Component extends DCLogic {
   };
 
   _onScroll = () => {
+    if (this._isFullscreen) return;
     const isDesktop = window.matchMedia('(min-width: 1025px)').matches;
     if (!isDesktop) return;
     if (this._isScrolling) return;
@@ -1272,6 +1319,14 @@ class Component extends DCLogic {
     window.removeEventListener('keydown', this._onKeyDown);
     window.removeEventListener('scroll', this._onScroll);
     document.removeEventListener('click', this._onClickAnchor);
+
+    // Clean up fullscreen listeners
+    if (this._onFullscreenChange) {
+      document.removeEventListener('fullscreenchange', this._onFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', this._onFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', this._onFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', this._onFullscreenChange);
+    }
   }
 
 
