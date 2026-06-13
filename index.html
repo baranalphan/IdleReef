@@ -1073,9 +1073,6 @@ class Component extends DCLogic {
           if (note) note.style.display = 'grid';
         }, true);
 
-        this._savedScrollY = 0;
-        this._isFullscreen = false;
-
         this._onFullscreenChange = () => {
           const fullscreenEl = document.fullscreenElement || 
                                document.webkitFullscreenElement || 
@@ -1084,14 +1081,18 @@ class Component extends DCLogic {
           
           if (fullscreenEl === el) {
             if (!this._isFullscreen) {
-              this._savedScrollY = window.scrollY;
+              if (window.scrollY > 0) {
+                this._savedScrollY = window.scrollY;
+              }
               this._isFullscreen = true;
             }
           } else {
             if (this._isFullscreen) {
-              this._isFullscreen = false;
               setTimeout(() => {
                 window.scrollTo(0, this._savedScrollY);
+                setTimeout(() => {
+                  this._isFullscreen = false;
+                }, 100);
               }, 50);
             }
           }
@@ -1103,14 +1104,18 @@ class Component extends DCLogic {
         document.addEventListener('MSFullscreenChange', this._onFullscreenChange);
 
         this._onWebkitBeginFullscreen = () => {
-          this._savedScrollY = window.scrollY;
+          if (window.scrollY > 0) {
+            this._savedScrollY = window.scrollY;
+          }
           this._isFullscreen = true;
         };
 
         this._onWebkitEndFullscreen = () => {
-          this._isFullscreen = false;
           setTimeout(() => {
             window.scrollTo(0, this._savedScrollY);
+            setTimeout(() => {
+              this._isFullscreen = false;
+            }, 100);
           }, 50);
         };
 
@@ -1277,6 +1282,15 @@ class Component extends DCLogic {
   };
 
   componentDidMount() {
+    this._savedScrollY = window.scrollY;
+    this._isFullscreen = false;
+    this._onScrollCapture = () => {
+      if (!this._isFullscreen && window.scrollY > 0) {
+        this._savedScrollY = window.scrollY;
+      }
+    };
+    window.addEventListener('scroll', this._onScrollCapture, { passive: true });
+
     if (window.history.replaceState && window.location.href.includes('#')) {
       window.history.replaceState("", document.title, window.location.pathname + window.location.search);
     }
@@ -1319,6 +1333,11 @@ class Component extends DCLogic {
     window.removeEventListener('keydown', this._onKeyDown);
     window.removeEventListener('scroll', this._onScroll);
     document.removeEventListener('click', this._onClickAnchor);
+
+    // Clean up scroll capture listener
+    if (this._onScrollCapture) {
+      window.removeEventListener('scroll', this._onScrollCapture);
+    }
 
     // Clean up fullscreen listeners
     if (this._onFullscreenChange) {
